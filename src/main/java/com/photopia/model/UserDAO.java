@@ -1,5 +1,7 @@
 package com.photopia.model;
 
+import static org.mockito.Matchers.intThat;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,13 +11,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.naming.ldap.Rdn;
+import javax.swing.Spring;
 
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.photopia.model.exceptions.PostException;
 import com.photopia.model.exceptions.UserException;
 import com.photopia.model.interfaces.IUser;
-
+@Component
+@ContextConfiguration(classes=DaoConfiguration.class)
 public class UserDAO {
 
 	private static final String INSERT_USER_SQL = "INSERT INTO users VALUES (null, ?, md5(?),?,null,null,null,null,null)";
@@ -25,7 +30,7 @@ public class UserDAO {
 	private static final String GET_PROFILE_PHOTO = "select profile_photo from users where user_id=?;";
 	private static final String GET_PASSWORD = "select password from users where user_id=?";
 	private static final String CHANGE_PASSWORD = "update users set password=md5(?)where user_id=? and password=md5(?);";
-	private static final String CHANGE_PROFILE_INFO = "";
+	private static final String CHANGE_PROFILE_INFO = "update users set name=?,gender=?,biography=?,website=?,profile_photo=? where user_id=?;";
 	private static final String GET_PROFILE_INFO = "select * from users where user_id=?";
 	private static final String GET_NUMBER_OF_POSTS = "select count(user_id) from posts where user_id=?";
 	private static final String GET_NUMBER_OF_FOLLOWINGS = "select count(following_id) from user_followers where follower_id=?;";
@@ -33,8 +38,18 @@ public class UserDAO {
 	private static final String GET_USER_FOLLOWINGS_POSTS = "select post_id,user_name,url from user_followers uf"
 			+ " join posts p on(uf.following_id= p.user_id)" + " join users u on(p.user_id=u.user_id)"
 			+ " where uf.follower_id=?" + " order by p.upload_timestamp DESC;";
+	private static final String GET_ALL_UNFOLLOWED_USERS_FOR_CURRENT_USER = "SELECT u.user_id,u.user_name,u.profile_photo FROM users u WHERE"
+			+ " NOT EXISTS"
+			+ " (SELECT uf.following_id FROM user_followers uf"
+			+" WHERE u.user_id = uf.following_id AND uf.follower_id = ?)"
+			+" AND u.user_id <> ?"
+			+" ORDER by u.user_id;";
+	
+	private static final String ADD_FOLLOWER = "insert into user_followers values(?,?);";
 
-	public int registerUser(IUser user) throws Exception {
+	
+	
+	public int registerUser(IUser user) throws UserException {
 		Connection connection = DBConnection.getInstance().getConnection();
 		// Connection connection = new DBConnection().getConnection();
 
@@ -233,6 +248,7 @@ public class UserDAO {
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 
+			
 			String username = rs.getString("user_name");
 			String password = rs.getString("password");
 			String email = rs.getString("email");
@@ -253,12 +269,10 @@ public class UserDAO {
 		}
 	}
 
-	
-
 	public List<Post> getAllUserFollowingsPosts(int userId) throws UserException, PostException {
 		Connection connection = DBConnection.getInstance().getConnection();
-		
-		List<Post> allFollowingsPosts=new LinkedList<Post>();
+
+		List<Post> allFollowingsPosts = new LinkedList<Post>();
 		// Connection connection = new DBConnection().getConnection();
 
 		try {
@@ -266,12 +280,12 @@ public class UserDAO {
 			ps.setInt(1, userId);
 
 			ResultSet rs = ps.executeQuery();
-			rs.next();
+			//rs.next();
 			while (rs.next()) {
 				int postId = rs.getInt("post_id");
 				String ownerName = rs.getString("user_name");
-				String url=rs.getString("url");
-				allFollowingsPosts.add(new Photo(postId,ownerName,url));
+				String url = rs.getString("url");
+				allFollowingsPosts.add(new Photo(postId, ownerName, url));
 			}
 
 			return allFollowingsPosts;
@@ -281,4 +295,72 @@ public class UserDAO {
 		}
 	}
 
+	public List<IUser> getAllUserFollowers(int currentUserId) throws UserException {
+		Connection connection = DBConnection.getInstance().getConnection();
+
+		List<IUser> allUserFollowers = new LinkedList<IUser>();
+		// Connection connection = new DBConnection().getConnection();
+
+		try {
+			PreparedStatement ps = connection.prepareStatement(GET_ALL_UNFOLLOWED_USERS_FOR_CURRENT_USER);
+			ps.setInt(1, currentUserId);
+			ps.setInt(2, currentUserId);
+
+			ResultSet rs = ps.executeQuery();
+			 rs.next();
+			while (rs.next()) {
+
+				int userId = rs.getInt("user_id");
+				String name = rs.getString("user_name");
+				String url = rs.getString("profile_photo");
+				allUserFollowers.add(new User(userId, name, url));
+			}
+			return allUserFollowers;
+
+		} catch (SQLException e) {
+			throw new UserException("No follower available");
+		}
+	}
+	
+	
+	public void followUser(int currentUserId,int followingUserId) throws UserException  {
+		Connection connection = DBConnection.getInstance().getConnection();
+		// Connection connection = new DBConnection().getConnection();
+
+		try {
+
+			PreparedStatement ps = connection.prepareStatement(ADD_FOLLOWER);
+			ps.setInt(1, followingUserId);
+			ps.setInt(2, currentUserId);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new UserException("Following failed!");
+		}
+
+	
+	}
+	
+	public void changeProfileInfo(IUser user) throws UserException {
+		
+		Connection connection = DBConnection.getInstance().getConnection();
+		// Connection connection = new DBConnection().getConnection();
+
+		try {
+System.out.println("dao" + user);
+			PreparedStatement ps = connection.prepareStatement(CHANGE_PROFILE_INFO);
+			ps.setString(1, user.getName());
+			ps.setString(2, user.getGender());
+			ps.setString(3, user.getBiography());
+			ps.setString(4, user.getWebsite());
+			ps.setString(5, user.getProfilePhotoUrl());
+			ps.setInt(6, user.getUserId());
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new UserException("Cannot change profile info for this user");
+		}
+		
+	}
 }

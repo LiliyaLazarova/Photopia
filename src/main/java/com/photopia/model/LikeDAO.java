@@ -7,10 +7,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
+
 import com.photopia.model.exceptions.LikeException;
 
 
-
+@Component
+@ContextConfiguration(classes=DaoConfiguration.class)
 public class LikeDAO {
 	
 	private static final String GET_NUMBER_OF_LIKES="SELECT COUNT(*) FROM likes where post_id=?;";

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="formmm"
+	uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -93,7 +94,7 @@
 			</div>
 			<div class="fh5co-top-menu menu-1 text-center">
 				<ul>
-					<li><a href="work.html">Suggestion</a></li>
+					<li><a href="suggestions">Suggestion</a></li>
 					<li class="active"><a href="about.html">Profile</a></li>
 					<li class="has-dropdown"><a href="#">Newsfeed</a>
 						<ul class="dropdown">
@@ -114,26 +115,10 @@
 		</nav>
 
 		<div>
-			<img src="C:/Lility/User_Photos/DSC_1628.jpg" width="128"
-				height="128">
+			
 
 
 
-			<form method="POST" enctype="multipart/form-data"
-				onsubmit="Validatebodypanelbumper()">
-
-
-				<table>
-					<tr>
-						<td>File to upload:</td>
-						<td><input type="file" id="file" name="file" accept="image/*" /></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="submit" value="Upload" /></td>
-					</tr>
-				</table>
-			</form>
 		</div>
 
 		<div id="fh5co-author">
@@ -143,25 +128,25 @@
 						class="col-md-6 col-md-offset-3 col-md-push-2 text-left fh5co-heading">
 
 
-
-
-
-
 						<h2>About Me</h2>
-						<h3></h3>
-						<p>${user.username}</p>
-						<p>${numberOfPosts}&ensp; posts</p>
-						<p>${numberOfFollowers}&ensp; followers</p>
-						<p>${numberOfFollowings}&ensp; followings</p>
+						<img src="img/${user.profilePhotoUrl}" width="128" height="128">
+						
+						<h3>${user.username}</h3>
 
+						<p>${numberOfPosts}&ensp;posts</p>
+						<p>${numberOfFollowers}&ensp;followers</p>
+						<p>${numberOfFollowings}&ensp;followings</p>
+
+<input class="btn btn-primary" type="submit"   onclick="window.location='changeProfile'"
+												value="Change Profile" />
 					</div>
 				</div>
-				<c:forEach var="string" items="${allPosts}">
+				<c:forEach items="${allPosts}" var="url">
 					<div class="row">
 						<div class="col-md-4 text-center animate-box">
 							<a class="work" href="portfolio_detail.html">
-								<div class="work-grid" style="background-image: url(img/lens.jpg);">
-									
+								<div class="work-grid" style="background-image: url("$url");">
+									<c:out value="${url}"></c:out>
 									<div class="inner">
 										<div class="desc">
 											<h3>Folding Light</h3>
@@ -172,21 +157,42 @@
 							</a>
 						</div>
 				</c:forEach>
+
+
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2">
 						<div class="author">
 							<div class="author-inner animate-box"
 								style="background-image: url(images/person3.jpg);"></div>
 							<div class="desc animate-box">
+
+
 								<span> </span>
-								<h3>photos</h3>
-								<p></p>
-								<ul class="fh5co-social-icons">
-									<li><a href="#"><i class="icon-facebook"></i></a></li>
-									<li><a href="#"><i class="icon-twitter"></i></a></li>
-									<li><a href="#"><i class="icon-dribbble"></i></a></li>
-									<li><a href="#"><i class="icon-github"></i></a></li>
-								</ul>
+								<formmm:form commandName="post" enctype="multipart/form-data"
+									onsubmit="Validatebodypanelbumper()">
+									
+									<formmm:input type="text" path="location"
+										placeholder="Add Location"></formmm:input>
+									<br />
+								
+									<formmm:input type="text" path="description"
+										placeholder="Add Description" ></formmm:input>
+									<br />
+									<table>
+										<tr>
+											<td>File to upload:</td>
+											<td><input type="file" id="file" name="file"
+												accept="image/*" /></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><input class="btn btn-primary" type="submit"
+												value="Upload" /></td>
+										</tr>
+									</table>
+								</formmm:form>
+
+
 							</div>
 						</div>
 						<div class="row">
@@ -298,9 +304,7 @@
 			<div class="container">
 				<div class="row animate-box">
 					<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-						<p>
-							<a href="#" class="btn btn-primary">Upload Photo</a>
-						</p>
+						<p></p>
 					</div>
 				</div>
 			</div>

@@ -16,21 +16,16 @@ public abstract class Post implements IPost {
 	private int ownerId;
 	private String ownerName;
 	private String description;
-
-	public String getOwnerName() {
-		return ownerName;
-	}
-
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
-	}
-
 	private String location;
 	private String url;
 	private Timestamp uploadTimestamp;
 	private List<Comment> comments = Collections.synchronizedList(new LinkedList<Comment>());
 	private AtomicInteger numberOfLikes = new AtomicInteger(0);
 
+	public Post(){
+		
+	}
+	
 	public Post(int ownerId) throws PostException {
 		if (ownerId != 0) {
 			this.ownerId = ownerId;
@@ -39,6 +34,7 @@ public abstract class Post implements IPost {
 		}
 	}
 
+	
 	public Post(int postId, String ownerName, String url) throws PostException {
 		if (isValidString(url) && isValidString(ownerName)) {
 			this.ownerName = ownerName;
@@ -90,7 +86,13 @@ public abstract class Post implements IPost {
 	}
 
 	public void setUrl(String url) {
-		this.url = url;
+		String str = url.substring(url.indexOf('_'), url.length()-1);
+		if(str.equals("")) {
+			this.url=null;
+		}else {
+			this.url=url;
+		}
+				
 	}
 
 	public Timestamp getUploadTimestamp() {
@@ -104,4 +106,13 @@ public abstract class Post implements IPost {
 	private boolean isValidString(String text) {
 		return (text != null && !text.equals(""));
 	}
+	
+	public String getOwnerName() {
+		return ownerName;
+	}
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
+	}
+
 }

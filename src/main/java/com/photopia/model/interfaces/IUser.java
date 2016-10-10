@@ -7,5 +7,10 @@ public interface IUser {
 	public int getUserId();
 	public String getPassword();
 	public String getEmail();
+	public String getGender();
+	public String getBiography();
+	public String getWebsite();
+	public void setProfilePhotoUrl(String url);
+	public String getProfilePhotoUrl();
 
 }

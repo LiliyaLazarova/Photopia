@@ -119,6 +119,7 @@
 
 
 
+
 		</div>
 
 		<div id="fh5co-author">
@@ -129,34 +130,46 @@
 
 
 						<h2>About Me</h2>
-						<img src="img/${user.profilePhotoUrl}" width="128" height="128">
 						
-						<h3>${user.username}</h3>
-
-						<p>${numberOfPosts}&ensp;posts</p>
-						<p>${numberOfFollowers}&ensp;followers</p>
-						<p>${numberOfFollowings}&ensp;followings</p>
-
-<input class="btn btn-primary" type="submit"   onclick="window.location='changeProfile'"
-												value="Change Profile" />
+						<formmm:form commandName="user" enctype="multipart/form-data"
+									onsubmit="Validatebodypanelbumper()">
+						<img src="img/${user.profilePhotoUrl}" width="128" height="128">
+						<br/>
+						<br/>
+							<p>Change profile photo:</p>
+											<input type="file" id="file" name="file"
+												accept="image/*" />
+												<br/>
+						<input type="hidden" name="userId" value="${user.userId}" />
+							<input type="hidden" name="username" value="${user.username}" />
+							<h3>Username: ${user.username}</h3>
+							<input type="hidden" name="email" value="${user.email}" />
+							<h3>E-mail: ${user.email}</h3>
+								<input class="btn btn-primary" type="button" onclick="window.location='changePassword'"
+												value="Change password" />
+							<br />
+							<h3>Full Name:</h3>
+							<formmm:input path="name" type="text" value="${user.name}" />
+							<h3>Website:</h3>
+							<formmm:input path="website" type="text" value="${user.website}" />
+							<h3>Biography:</h3>
+							<formmm:input path="biography" type="text"
+								value="${user.biography}" />
+							<h3>Gender:</h3>
+							<formmm:input path="gender" type="text" value="${user.gender}" />
+							<br />
+							<br />
+									
+									
+										
+										
+											
+											<input class="btn btn-primary" type="submit"
+												value="Apply changes" />
+									
+								</formmm:form>
 					</div>
 				</div>
-				<c:forEach items="${allPosts}" var="url">
-					<div class="row">
-						<div class="col-md-4 text-center animate-box">
-							<a class="work" href="portfolio_detail.html">
-								<div class="work-grid" style="background-image: url("$url");">
-									<c:out value="${url}"></c:out>
-									<div class="inner">
-										<div class="desc">
-											<h3>Folding Light</h3>
-											<span class="cat">Branding</span>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-				</c:forEach>
 
 
 				<div class="row">
@@ -168,29 +181,7 @@
 
 
 								<span> </span>
-								<formmm:form commandName="post" enctype="multipart/form-data"
-									onsubmit="Validatebodypanelbumper()">
-									
-									<formmm:input type="text" path="location"
-										placeholder="Add Location"></formmm:input>
-									<br />
-								
-									<formmm:input type="text" path="description"
-										placeholder="Add Description" ></formmm:input>
-									<br />
-									<table>
-										<tr>
-											<td>File to upload:</td>
-											<td><input type="file" id="file" name="file"
-												accept="image/*" /></td>
-										</tr>
-										<tr>
-											<td></td>
-											<td><input class="btn btn-primary" type="submit"
-												value="Upload" /></td>
-										</tr>
-									</table>
-								</formmm:form>
+
 
 
 							</div>

@@ -6,9 +6,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
+
 import com.photopia.model.exceptions.CommentException;
 
-
+@Component
+@ContextConfiguration(classes=DaoConfiguration.class)
 public class CommentDAO {
 	
 	public static final String ADD_COMMENT="Insert into comments values(null,?,?,?,?)";

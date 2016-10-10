@@ -8,15 +8,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.photopia.model.exceptions.PostException;
 import com.photopia.model.interfaces.IPost;
 
 
-
+@Component
+@ContextConfiguration(classes=DaoConfiguration.class)
 public class PostDAO {
 
-	private static final String INSERT_POST = "Insert into posts values(null,?,?,?,?,?,?,null);";
+	private static final String INSERT_POST = "Insert into posts values(null,?,?,?,?,?);";
 	private static final String GET_ALL_POSTS = "Select url from posts where user_id=?;";
 	private static final String GET_POST_INFO = "SELECT post_id,description,location FROM posts where url=?;";
 	private static final String GET_POST_COMMENTS = "select user_id,comment_text from comments where post_id=?;";
@@ -36,12 +38,6 @@ public class PostDAO {
 			preparedStatement.setString(3, post.getLocation());
 			preparedStatement.setString(4, post.getUrl());
 			preparedStatement.setTimestamp(5, post.getUploadTimestamp());
-
-			if (post.getClass().getSimpleName().equals("Photo")) {
-				preparedStatement.setInt(6, 1);
-			} else {
-				preparedStatement.setInt(6, 2);
-			}
 
 			preparedStatement.executeUpdate();
 

@@ -27,11 +27,12 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**").addResourceLocations("/static/css/");
         registry.addResourceHandler("/pdfs/**").addResourceLocations("/static/pdf/");
-       registry.addResourceHandler("/img/**").addResourceLocations("/static/img/");
+        //registry.addResourceHandler("/img/**").addResourceLocations("/static/img/");
         registry.addResourceHandler("/js/**").addResourceLocations("/static/js/");
         registry.addResourceHandler("/sass/**").addResourceLocations("/static/sass/");
-        //registry.addResourceHandler("/img/**").addResourceLocations("C:/Lility/User_Photos/img/");
-        //registry.addResourceHandler("/img/**").addResourceLocations("C:\\Lility\\User_Photos\\img\\");
+        //registry.addResourceHandler("/img/**").addResourceLocations("file:c/Lility/User_Photos/img/");
+        registry.addResourceHandler("/img/**").addResourceLocations("file:\\C:\\Lility\\User_Photos\\img\\");
+        //registry.addResourceHandler("/img/**").addResourceLocations("C:\\Lility\\User_Photos\\");
     }
     
     @Bean(name = "multipartResolver")

@@ -18,11 +18,13 @@ import com.photopia.model.CommentDAO;
 import com.photopia.model.Photo;
 import com.photopia.model.Post;
 import com.photopia.model.PostCommentRelation;
+import com.photopia.model.PostDAO;
 import com.photopia.model.User;
 import com.photopia.model.UserDAO;
 import com.photopia.model.exceptions.CommentException;
 import com.photopia.model.exceptions.PostException;
 import com.photopia.model.exceptions.UserException;
+
 
 @Controller
 public class WallController {
@@ -31,6 +33,8 @@ public class WallController {
 	UserDAO userDAO;
 	@Autowired
 	CommentDAO commentDAO;
+	@Autowired
+	PostDAO postDAO;
 
 	@RequestMapping(value = "/wall", method = RequestMethod.GET)
 	public String showUserWall(Model model, HttpServletRequest request) {
@@ -55,25 +59,48 @@ public class WallController {
 	}
 
 	@RequestMapping(value = "/wall", method = RequestMethod.POST)
-	public String addComment(@RequestParam Integer postId, @ModelAttribute Comment comment, Model model,
+	public void addComment(@RequestParam("postId") int postId,@RequestParam("text") String text, @ModelAttribute Comment comment, Model model,
 			HttpServletRequest request) {
 
 		Object userId = request.getSession().getAttribute("userID");
 		if (userId == null) {
-			return "redirect:/index";
+//			return "redirect:/index";
 		}
 		int id = (int) userId;
-
-		String text = comment.getText();
-		int commentPostId = postId;
+		System.out.println("v comment sum");
 		try {
-			commentDAO.addCommentToPost(commentPostId, id, text);
+			
+			commentDAO.addCommentToPost(postId, id, text);
+			
 
 		} catch (CommentException e) {
-			return "redirect:/wall";
+//			return "redirect:/wall";
+		}
+		
+
+//		return "redirect:/wall";
+
+	}
+	
+	@RequestMapping(value = "/like", method = RequestMethod.POST)
+	public void addLike(@RequestParam("currentPostId")  int currentPostId, @ModelAttribute Comment comment, Model model,
+			HttpServletRequest request) {
+
+		Object userId = request.getSession().getAttribute("userID");
+		if (userId == null) {
+//			return "redirect:/index";
+		}
+		int id = (int) userId;
+		
+
+		
+		try {
+			postDAO.addLikeToPost(id, currentPostId);
+		} catch (PostException e) {
+			//todo
 		}
 
-		return "redirect:/wall";
+//		return "redirect:/wall";
 
 	}
 

@@ -70,6 +70,63 @@
 			elem.value = "Like";
 	}
 </script>
+
+
+<script type="text/javascript" src="js/jquery-3.1.1.min"></script>
+<script type="text/javascript">
+	function addCommentForPost() {
+		var text = $("#text").val();
+		var postId = $("#postId").val();
+		$.post("http://localhost:8080/Photopia/wall?text=" + text + "&postId="
+				+ postId);
+		document.getElementById('text').value = '';
+
+	}
+</script>
+<script type="text/javascript">
+	function showNewsfeed() {
+
+		$.get("http://localhost:8080/Photopia/NewsfeedController",
+				function(data) {
+			$("#newsfeeds").empty();
+			for (index in data) {
+				var object = data[index];
+				var name = document.createElement("h1");
+				name.innerHTML = object.userName;
+				$("#newsfeeds").append(name);
+
+				var message = document.createElement("p");
+				message.color = "red";
+				message.innerHTML = object.message;
+				$("#newsfeeds").append(message);
+
+			}
+		});
+
+	}
+</script>
+<script type="text/javascript">
+	function liked() {
+		var postId = $("#postId").val();
+		$.post("http://localhost:8080/Photopia/like?currentPostId="
+				+ postId);
+		onClickChange();
+
+	}
+	
+	
+	
+</script>
+<script type="text/javascript">
+function onClickChange() {
+	var elem = document.getElementById("myButton");
+	if (elem.value == "Like") {
+		elem.value = "Unlike";
+	} else
+		elem.value = "Like";
+}
+</script>
+
 </head>
 <body>
 
@@ -87,11 +144,13 @@
 				<ul>
 					<li><a href="suggestions">Suggestions</a></li>
 					<li><a href="profile">Profile</a></li>
-					<li class="has-dropdown"><a href="#">Newsfeed</a>
-						<ul class="dropdown">
-							<li><a href="#">Web Design </a></li>
+					<li class="has-dropdown" onmouseover="showNewsfeed()"><a
+						href="#">Newsfeed</a>
+						
+						
+							
 
-						</ul></li>
+						</li>
 					<li><a href="contact.html">Search</a></li>
 
 				</ul>
@@ -103,16 +162,18 @@
 			</div>
 		</div>
 		</nav>
-
 		<div id="fh5co-work">
 			<div class="container">
 				<div class="row top-line animate-box">
+				
+			<div class="dropdown" id="newsfeeds">
+							<p>offffffff</p></div>	
 
 					<c:forEach var="post" items="${allFollowingsPosts}">
 						<div class="row">
 							<div class="col-md-4 text-center animate-box">
 								<a class="work" href="portfolio_detail.html"> <c:out
-										value="${post.ownerName}" /> 
+										value="${post.ownerName}" />
 									<div class="work-grid"
 										style="background-image: url(img/${post.url})">
 										<div class="inner">
@@ -130,14 +191,15 @@
 							</div>
 
 						</div>
-						<formmm:form commandName="comment" class="form">
-							<formmm:input path="text" type="input"
-								placeholder="Add your comment here..." />
-							<input type="hidden" name="postId" value="${post.postId}" />
-							<button class="btn" type="submit">Add Comment</button>
-						</formmm:form>
+						<form class="form">
+							<input id="text" type="input"
+								placeholder="Add your comment here..." /> <input type="hidden"
+								id="postId" value="${post.postId}" />
+							<button class="btn" onclick="addCommentForPost()" type="button">Add
+								Comment</button>
+						</form>
 
-						<input type="button" id="myButton" onclick="change()" value="Like" />
+						<input type="button" id="myButton" onclick="liked()" value="Like" />
 
 						<br />
 						<br />

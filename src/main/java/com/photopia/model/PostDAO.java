@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class PostDAO {
 	private static final String GET_COMMENTING_USERS = "select user_name from users where user_id=?;";
 	private static final String ADD_POST_INFO = "update posts set description=?,location=? where post_id=?";
 	private static final String DELETE_POST = "";
+	private static final String ADD_LIKE_TO_POST="INSERT into likes values(null,?,?,?);";
 
 	public void uploadPost(int userId, IPost post) {
 
@@ -135,6 +138,27 @@ public class PostDAO {
 
 		} catch (SQLException e) {
 			throw new PostException("Updating post's info failed");
+		}
+
+	}
+	
+	public void addLikeToPost(int userId, int postId) throws PostException {
+
+		Connection connection = DBConnection.getInstance().getConnection();
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(ADD_LIKE_TO_POST);
+
+			preparedStatement.setInt(1, userId);
+			preparedStatement.setInt(2, postId);
+			Timestamp time = Timestamp.valueOf(LocalDateTime.now());
+			preparedStatement.setTimestamp(3, time);
+			
+
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new PostException("Invalid like to post");
 		}
 
 	}

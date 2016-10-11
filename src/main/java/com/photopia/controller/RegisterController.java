@@ -17,6 +17,7 @@ import com.photopia.model.User;
 import com.photopia.model.UserDAO;
 import com.photopia.model.exceptions.UserException;
 
+
 @Controller
 public class RegisterController {
 

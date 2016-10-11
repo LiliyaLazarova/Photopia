@@ -1,12 +1,13 @@
 package com.photopia.model;
 
-import static org.mockito.Matchers.intThat;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class UserDAO {
 			+" AND u.user_id <> ?"
 			+" ORDER by u.user_id;";
 	
-	private static final String ADD_FOLLOWER = "insert into user_followers values(?,?);";
+	private static final String ADD_FOLLOWER = "insert into user_followers values(?,?,?);";
 
 	
 	
@@ -328,10 +329,11 @@ public class UserDAO {
 		// Connection connection = new DBConnection().getConnection();
 
 		try {
-
+			Timestamp time =Timestamp.valueOf(LocalDateTime.now());
 			PreparedStatement ps = connection.prepareStatement(ADD_FOLLOWER);
 			ps.setInt(1, followingUserId);
 			ps.setInt(2, currentUserId);
+			ps.setTimestamp(3, time);
 			
 			ps.executeUpdate();
 
@@ -348,7 +350,7 @@ public class UserDAO {
 		// Connection connection = new DBConnection().getConnection();
 
 		try {
-System.out.println("dao" + user);
+
 			PreparedStatement ps = connection.prepareStatement(CHANGE_PROFILE_INFO);
 			ps.setString(1, user.getName());
 			ps.setString(2, user.getGender());

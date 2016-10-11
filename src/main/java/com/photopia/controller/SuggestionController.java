@@ -25,6 +25,7 @@ import com.photopia.model.exceptions.PostException;
 import com.photopia.model.exceptions.UserException;
 import com.photopia.model.interfaces.IUser;
 
+
 @Controller
 public class SuggestionController {
 

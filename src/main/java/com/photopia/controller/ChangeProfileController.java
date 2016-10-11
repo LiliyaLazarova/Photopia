@@ -23,6 +23,7 @@ import com.photopia.model.UserDAO;
 import com.photopia.model.exceptions.UserException;
 import com.photopia.model.interfaces.IUser;
 
+
 @Controller
 public class ChangeProfileController {
 	

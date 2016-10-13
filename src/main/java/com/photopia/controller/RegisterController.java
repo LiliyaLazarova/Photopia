@@ -1,5 +1,7 @@
 package com.photopia.controller;
 
+import java.sql.SQLException;
+
 import javax.naming.Binding;
 import javax.validation.Valid;
 
@@ -31,18 +33,18 @@ public class RegisterController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(@ModelAttribute @Validated User user, Model model,BindingResult bindingResult) {
+	public String register(@ModelAttribute @Valid User user, BindingResult bindingResult,Model model) {
 
 		try {
+			
 			if(bindingResult.hasErrors()){
+				model.addAttribute("errorMessage", "Registration failed.");
 				return "register";
 			}else {
 				userDAO.registerUser(user);
 			}
 		
-			
-
-		} catch (UserException e) {
+		} catch (UserException | ClassNotFoundException | SQLException e) {
 			model.addAttribute("errorMessage", "Registration failed.");
 			return "register";
 		}

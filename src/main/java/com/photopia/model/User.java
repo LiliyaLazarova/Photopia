@@ -78,49 +78,51 @@ public class User implements IUser {
 		return username;
 	}
 	
-	public void setUsername(String username){
-		this.username=username;
-	}
-
-//	public void setUsername(String username) throws UserException {
-//		if (isValidString(username)) {
-//			this.username = username;
-//		} else {
-//			throw new UserException("Invalid username");
-//		}
-//
+//	public void setUsername(String username){
+//		this.username=username;
 //	}
+
+	public void setUsername(String username) throws UserException {
+		if (isValidString(username)) {
+			this.username = username;
+		} else {
+			throw new UserException("Invalid username");
+		}
+
+	}
 
 	public String getPassword() {
 		return password;
 	}
 	
 	
-public void setPassword(String password){
-	this.password=password;
-}
-//	public void setPassword(String password) throws UserException {
-//		if (isValidString(password)&&password.length()>PASSWORD_MIN_LENGTH) {
-//			this.password = password;
-//		} else {
-//			throw new UserException("Invalid password");
-//		}
-//	}
+//public void setPassword(String password){
+//	this.password=password;
+//}
+	public void setPassword(String password) throws UserException {
+		if (isValidString(password)&&password.length()>PASSWORD_MIN_LENGTH) {
+			this.password = password;
+		} else {
+			throw new UserException("Invalid password");
+		}
+	}
 
 	public String getEmail() {
 		return email;
 	}
-public void setEmail(String email){
-	this.email=email;
-}
-//	public void setEmail(String email) throws UserException {
-//		if (isValidEmail(email)) {
-//			this.email = email;
-//		}else {
-//			throw new UserException("Invalid email!");
-//		}
-//		
-//	}
+
+	// public void setEmail(String email){
+	// this.email=email;
+	// }
+	
+	public void setEmail(String email) throws UserException {
+		if (isValidEmail(email)) {
+			this.email = email;
+		}else {
+			throw new UserException("Invalid email!");
+		}
+		
+	}
 
 	public String getName() {
 		return name;

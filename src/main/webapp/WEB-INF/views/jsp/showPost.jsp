@@ -65,65 +65,15 @@
 
 
 <script type="text/javascript" src="js/jquery-3.1.1.min"></script>
-
 <script type="text/javascript">
-function addCommentForPost(index) {
-	var text =$("#text-"+index).val();
-	var postId=$("#postId-"+index).val();
+function addCommentForPost() {
+	var text =$("#text").val();
+	var postId=$("#postId").val();
 	$.post("http://localhost:8080/Photopia/wall?text="+text+"&postId="+postId);
-	document.getElementById('text-'+index).value='';
+	document.getElementById('text').value='';
 }
 </script>
 
-<script type="text/javascript">
-	function showNewsfeed() {
-
-		$.get("http://localhost:8080/Photopia/NewsfeedController", function(
-				data) {
-			$("#newsfeeds").empty();
-			for (index in data) {
-				var object = data[index];
-				var name = document.createElement("h1");
-				name.innerHTML = object.userName;
-				$("#newsfeeds").append(name);
-
-				var message = document.createElement("p");
-				message.color = "red";
-				message.innerHTML = object.message;
-				$("#newsfeeds").append(message);
-
-			}
-		});
-
-	}
-</script>
-<script type="text/javascript">
-	function liked(index) {
-		var postId = $("#postId-"+index).val();
-		$.post("http://localhost:8080/Photopia/like?currentPostId=" + postId);
-		
-
-	}
-</script>
-<script type="text/javascript">
-	function onClickChange(index) {
-		var elem = document.getElementById("myButton-"+index);
-		if (elem.value == "Like") {
-			
-			elem.value = "Unlike";
-			liked(index);
-		} else
-			elem.value = "Like";
-		unliked(index);
-	}
-</script>
-
-<script type="text/javascript">
-function unliked(index) {
-	var postId = $("#postId-"+index).val();
-	$.post("http://localhost:8080/Photopia/unlike?currentPostId=" + postId);
-}
-</script>
 </head>
 <body>
 
@@ -164,58 +114,43 @@ function unliked(index) {
 			<div class="container">
 				<div class="row top-line animate-box">
 
-				
-
-					<c:forEach var="post" items="${allFollowingsPosts}" varStatus="loop">
-						<div class="row">
+				<div class="row">
 							<div class="col-md-4 text-center animate-box">
-								<a class="work" href="showPost?postId=${post.postId}"> <c:out
-										value="${post.ownerName}" />
+								<a class="work" > 
 									<div class="work-grid"
 										style="background-image: url(img/${post.url})">
-										<div class="inner">
-											<div class="desc">
-												<h3>Folding Light</h3>
-												<span class="cat">Branding</span>
-											</div>
-										</div>
+							
+										
 									</div>
 								</a>
 							</div>
-
+							<div class="col-md-4 text-center animate-box">
+								<a class="work" > 
+									<div class="work-grid">
+									<p><font size="4">People liked this photo:</font></p>
+									<h1>${names}</h1>
+									<p><font size="4">Comments:</font></p>
+									<c:forEach var="comment" items="${comments}" varStatus="loop">
+									<h1>${comment.commentOwner}:  ${comment.text}</h1>
+									
+							
+										</c:forEach>
+									</div>
+								</a>
+							</div>
+							
 						</div>
 						<form class="form">
-							<input id="text-${loop.index}" type="input"
+							<input id="text" type="input"
 								placeholder="Add your comment here..." /> <input type="hidden"
-								name="postId" id="postId-${loop.index}" value="${post.postId}" />
-							<button class="btn" onclick="addCommentForPost(${loop.index})" type="button">Add
+								id="postId" value="${post.postId}" />
+							<button class="btn" onclick="addCommentForPost()" type="button">Add
 								Comment</button>
 						</form>
+						
+</div>
+				
 
-						<input type="button" id="myButton-${loop.index}" onclick="onClickChange(${loop.index})" value="Like" />
-
-						<br />
-						<br />
-						<br />
-
-					</c:forEach>
-				</div>
-			</div>
-
-
-			<div id="fh5co-started">
-				<div class="container">
-					<div class="row animate-box">
-						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-							<p>
-								<a href="#" class="btn btn-primary">Show more results</a>
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
 
 		<div class="gototop js-top">
 			<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
@@ -233,4 +168,3 @@ function unliked(index) {
 		<script src="js/main.js"></script>
 </body>
 </html>
-

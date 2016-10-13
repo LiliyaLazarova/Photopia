@@ -1,6 +1,7 @@
 package com.photopia.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,27 +47,41 @@ public class SuggestionController {
 			List<IUser> allUserFollowers = userDAO.getAllUserFollowers(id);
 			model.addAttribute("allUserFollowers", allUserFollowers);
 			model.addAttribute("user", new User());
-		} catch (UserException e) {
+		} catch (UserException | ClassNotFoundException | SQLException e) {
 			return "redirect:/suggestions";
 		}
 		return "suggestions";
 	}
 
-	@RequestMapping(value = "/suggestions", method = RequestMethod.POST)
-	public String follow(@ModelAttribute User user, Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/follow", method = RequestMethod.POST)
+	public void follow(@RequestParam("followingId")  int followingId, Model model, HttpServletRequest request) {
 
 		Object userId = request.getSession().getAttribute("userID");
-		if (userId == null) {
-			return "redirect:/index";
-		}
+
 		int id = (int) userId;
 
 		try {
-			userDAO.followUser(id, user.getUserId());
-		} catch (UserException e) {
-			return "redirect:/suggestions";
+			userDAO.followUser(id, followingId);
+		} catch (UserException | ClassNotFoundException | SQLException e) {
+//			return "redirect:/suggestions";
 		}
-		return "redirect:/suggestions";
+
+
+	}
+	
+	@RequestMapping(value = "/unfollow", method = RequestMethod.POST)
+	public void unfollow(@RequestParam("followingId")  int followingId, Model model, HttpServletRequest request) {
+
+		Object userId = request.getSession().getAttribute("userID");
+
+		int id = (int) userId;
+
+		try {
+			userDAO.unfollowUser(id, followingId);
+		} catch (UserException | ClassNotFoundException | SQLException e) {
+//			return "redirect:/suggestions";
+		}
+
 
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.photopia.model.exceptions.LikeException;
+import com.photopia.model.exceptions.PostException;
 
 
 @Component
@@ -18,14 +19,13 @@ import com.photopia.model.exceptions.LikeException;
 public class LikeDAO {
 	
 	private static final String GET_NUMBER_OF_LIKES="SELECT COUNT(*) FROM likes where post_id=?;";
-	private static final String ADD_LIKE="Insert into likes values(null,?,?,?)";
+	private static final String ADD_LIKE_TO_POST="INSERT into likes values(null,?,?,?);";
 	private static final String REMOVE_LIKE="Delete from likes where post_id=? and user_id=?;";
 	
 	
-	public int showNumberOfLikes(int postId) throws LikeException{
+	public int showNumberOfLikes(int postId) throws LikeException, ClassNotFoundException, SQLException{
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(GET_NUMBER_OF_LIKES);
@@ -41,29 +41,31 @@ public class LikeDAO {
 		
 	}
 	
-	public void addLikeToPost(int postId,int userId) throws LikeException{
-		Connection connection = DBConnection.getInstance().getConnection();
-		
-		// Connection connection = new DBConnection().getConnection();
+	public void addLikeToPost(int userId, int postId) throws PostException, ClassNotFoundException, SQLException {
+
+		Connection connection = new DBConnection().getConnection();
 
 		try {
-			PreparedStatement ps = connection.prepareStatement(ADD_LIKE);
-			ps.setInt(1, userId);
-			ps.setInt(2, postId);
-			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-			ps.executeUpdate();
+			PreparedStatement preparedStatement = connection.prepareStatement(ADD_LIKE_TO_POST);
+
+			preparedStatement.setInt(1, userId);
+			preparedStatement.setInt(2, postId);
+			Timestamp time = Timestamp.valueOf(LocalDateTime.now());
+			preparedStatement.setTimestamp(3, time);
+			
+
+			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
-			throw new LikeException("Like is not added");
+			throw new PostException("Invalid like to post");
 		}
 
-		
 	}
+
 	
-	public void removeLikeFromPost(int postId,int userId) throws LikeException{
-Connection connection = DBConnection.getInstance().getConnection();
+	public void removeLikeFromPost(int postId,int userId) throws LikeException, ClassNotFoundException, SQLException{
 		
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(REMOVE_LIKE);

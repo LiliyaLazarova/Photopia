@@ -10,15 +10,15 @@ public class Comment {
 	
 	private int commentId;
 	private String text;
-	private User commentOwner;
+	private String commentOwner;
 	private Post post;
 	private Timestamp timestamp;
 	
 	
-	public Comment(String text, User commentOwner, Post post) throws CommentException {
+	public Comment(String text, String commentOwnerName) throws CommentException {
 		setText(text);
-		setCommentOwner(commentOwner);
-		setPost(post);
+		setCommentOwner(commentOwnerName);
+		
 	}
 	public Comment() {
 	}
@@ -38,10 +38,12 @@ public class Comment {
 			throw new CommentException("Text is empty.");
 		}
 	}
-	public User getCommentOwner() {
+	public String getCommentOwner() {
 		return commentOwner;
 	}
-	public void setCommentOwner(User commentOwner) throws CommentException {
+	
+	public void setCommentOwner(String commentOwner) throws CommentException {
+		
 		if (commentOwner!=null) {
 			this.commentOwner=commentOwner;
 		}else {

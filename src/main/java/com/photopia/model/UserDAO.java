@@ -47,12 +47,13 @@ public class UserDAO {
 			+" ORDER by u.user_id;";
 	
 	private static final String ADD_FOLLOWER = "insert into user_followers values(?,?,?);";
+	private static final String DELETE_FOLLOWER = "delete from user_followers where following_id=? and follower_id=?;";
 
 	
 	
-	public int registerUser(IUser user) throws UserException {
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+	public int registerUser(IUser user) throws UserException, ClassNotFoundException, SQLException {
+
+		Connection connection = new DBConnection().getConnection();
 
 		try {
 
@@ -72,10 +73,9 @@ public class UserDAO {
 
 	}
 
-	public int loginUser(IUser user) throws UserException {
+	public int loginUser(IUser user) throws UserException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(FIND_USER);
@@ -95,10 +95,9 @@ public class UserDAO {
 		}
 	}
 
-	public void setProfilePhoto(int userId, String photoUrl) throws UserException {
+	public void setProfilePhoto(int userId, String photoUrl) throws UserException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		Connection connection = new DBConnection().getConnection();
 
 		try {
 
@@ -112,10 +111,9 @@ public class UserDAO {
 		}
 	}
 
-	public void deleteProfilePhoto(int userId) throws UserException {
+	public void deleteProfilePhoto(int userId) throws UserException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 
@@ -128,10 +126,9 @@ public class UserDAO {
 		}
 	}
 
-	public String showProfilePhoto(int userId) throws UserException {
+	public String showProfilePhoto(int userId) throws UserException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 
@@ -147,10 +144,9 @@ public class UserDAO {
 		}
 	}
 
-	public void changePassword(String newPassword, int userId) throws UserException {
+	public void changePassword(String newPassword, int userId) throws UserException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 			// connection.setAutoCommit(false);
@@ -172,10 +168,9 @@ public class UserDAO {
 
 	}
 
-	public int getNumberOfPosts(int userId) throws UserException {
+	public int getNumberOfPosts(int userId) throws UserException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(GET_NUMBER_OF_POSTS);
@@ -183,10 +178,6 @@ public class UserDAO {
 
 			ResultSet rs = ps.executeQuery();
 			rs.next();
-			//
-			// if (rs.next() == false) {
-			// throw new UserException("User login failed");
-			// }
 			return rs.getInt(1);
 
 		} catch (SQLException e) {
@@ -194,10 +185,9 @@ public class UserDAO {
 		}
 	}
 
-	public int getNumberOfFollowers(int userId) throws UserException {
+	public int getNumberOfFollowers(int userId) throws UserException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(GET_NUMBER_OF_FOLLOWERS);
@@ -205,10 +195,7 @@ public class UserDAO {
 
 			ResultSet rs = ps.executeQuery();
 			rs.next();
-			//
-			// if (rs.next() == false) {
-			// throw new UserException("User login failed");
-			// }
+			
 			return rs.getInt(1);
 
 		} catch (SQLException e) {
@@ -216,10 +203,9 @@ public class UserDAO {
 		}
 	}
 
-	public int getNumberOfFollowings(int userId) throws UserException {
+	public int getNumberOfFollowings(int userId) throws UserException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(GET_NUMBER_OF_FOLLOWINGS);
@@ -227,10 +213,6 @@ public class UserDAO {
 
 			ResultSet rs = ps.executeQuery();
 			rs.next();
-			//
-			// if (rs.next() == false) {
-			// throw new UserException("User login failed");
-			// }
 			return rs.getInt(1);
 
 		} catch (SQLException e) {
@@ -238,9 +220,8 @@ public class UserDAO {
 		}
 	}
 
-	public IUser getUserInfo(int userId) throws UserException {
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+	public IUser getUserInfo(int userId) throws UserException, ClassNotFoundException, SQLException {
+		Connection connection = new DBConnection().getConnection();
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(GET_PROFILE_INFO);
@@ -270,11 +251,11 @@ public class UserDAO {
 		}
 	}
 
-	public List<Post> getAllUserFollowingsPosts(int userId) throws UserException, PostException {
-		Connection connection = DBConnection.getInstance().getConnection();
+	public List<Post> getAllUserFollowingsPosts(int userId) throws UserException, PostException, ClassNotFoundException, SQLException {
+		Connection connection = new DBConnection().getConnection();
 
 		List<Post> allFollowingsPosts = new LinkedList<Post>();
-		// Connection connection = new DBConnection().getConnection();
+		
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(GET_USER_FOLLOWINGS_POSTS);
@@ -296,11 +277,11 @@ public class UserDAO {
 		}
 	}
 
-	public List<IUser> getAllUserFollowers(int currentUserId) throws UserException {
-		Connection connection = DBConnection.getInstance().getConnection();
+	public List<IUser> getAllUserFollowers(int currentUserId) throws UserException, ClassNotFoundException, SQLException {
+		Connection connection = new DBConnection().getConnection();
 
 		List<IUser> allUserFollowers = new LinkedList<IUser>();
-		// Connection connection = new DBConnection().getConnection();
+		
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(GET_ALL_UNFOLLOWED_USERS_FOR_CURRENT_USER);
@@ -308,7 +289,6 @@ public class UserDAO {
 			ps.setInt(2, currentUserId);
 
 			ResultSet rs = ps.executeQuery();
-			 rs.next();
 			while (rs.next()) {
 
 				int userId = rs.getInt("user_id");
@@ -324,9 +304,8 @@ public class UserDAO {
 	}
 	
 	
-	public void followUser(int currentUserId,int followingUserId) throws UserException  {
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+	public void followUser(int currentUserId,int followingUserId) throws UserException, ClassNotFoundException, SQLException  {
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 			Timestamp time =Timestamp.valueOf(LocalDateTime.now());
@@ -344,10 +323,26 @@ public class UserDAO {
 	
 	}
 	
-	public void changeProfileInfo(IUser user) throws UserException {
+	public void unfollowUser(int currentUserId,int followingUserId)throws UserException, ClassNotFoundException, SQLException {
+		Connection connection = new DBConnection().getConnection();
+
+		try {
+			
+			PreparedStatement ps = connection.prepareStatement(DELETE_FOLLOWER);
+			ps.setInt(1, followingUserId);
+			ps.setInt(2, currentUserId);
+			
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new UserException("Unfollowing failed!");
+		}
 		
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+	}
+	
+	public void changeProfileInfo(IUser user) throws UserException, ClassNotFoundException, SQLException {
+		
+		 Connection connection = new DBConnection().getConnection();
 
 		try {
 
@@ -365,4 +360,6 @@ public class UserDAO {
 		}
 		
 	}
+
+
 }

@@ -63,7 +63,7 @@ public class ProfileController {
 			model.addAttribute("numberOfFollowers", numberOfFollowers);
 			model.addAttribute("numberOfFollowings", numberOfFollowings);
 			
-			List<String> allPosts=postDAO.getAllPostsUrls(id);
+			List<Post> allPosts=postDAO.getAllPostsUrls(id);
 			model.addAttribute("allPosts",allPosts);
 			model.addAttribute("post",new Photo());
 			

@@ -33,6 +33,13 @@ public abstract class Post implements IPost {
 			throw new PostException("User doesn't exist");
 		}
 	}
+	
+	public Post(int postId, String url) {
+		//TODO
+		this.postId = postId;
+		this.url = url;
+	}
+	
 
 	
 	public Post(int postId, String ownerName, String url) throws PostException {
@@ -126,4 +133,5 @@ public abstract class Post implements IPost {
 		this.ownerName = ownerName;
 	}
 
+	
 }

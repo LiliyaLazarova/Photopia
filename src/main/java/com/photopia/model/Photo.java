@@ -9,6 +9,10 @@ public class Photo extends Post{
 		super(ownerId);
 	}
 	
+	public Photo(int postId, String url) {
+		super(postId, url);
+	}
+	
 	public Photo(int postId, String ownerName, String url) throws PostException{
 		super(postId,ownerName,url);
 	}

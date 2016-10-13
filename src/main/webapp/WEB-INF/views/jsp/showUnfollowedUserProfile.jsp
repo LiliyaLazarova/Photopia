@@ -34,50 +34,6 @@
 	<![endif]-->
 <script type="text/javascript" src="js/jquery-3.1.1.min"></script>	
 	
-<script type="text/javascript">
-function validateFileSize(){
-var input = document.getElementById('file');
-  var file = input.files[0].size / 1048576;
-  if (file > 0 && file <= 500) {}}
-  
-  </script>
-
-<script type="text/javascript">
-	function Validatebodypanelbumper(theForm) {
-		var regexp;
-		var extension = new FormData(theForm).get("file").value
-				.lastIndexOf('.');
-		if ((extension.toLowerCase() != ".gif")
-				&& (extension.toLowerCase() != ".jpg") && (extension != "")) {
-			alert("The \"FileUpload\" field contains an unapproved filename.");
-			theForm.file.focus();
-			return false;
-		}
-		return true;
-	}
-</script>
-
-<script type="text/javascript">
-function getNumberOfLikesAndComments(index) {
-	var postId = $("#postId-"+index).val();
-	$.get("http://localhost:8080/Photopia/numberOfLikes?currentPostId=" + postId,
-			function (data) {
-		$("#likes-"+index).empty();
-		
-		var likes = data[0];
-		var numberLikes = document.createElement("h1");
-		numberLikes.innerHTML="Likes: " + likes;
-		$("#likes-"+index).append(numberLikes);
-		
-		var comments = data[1];
-		var numberComments = document.createElement("h1");
-		numberComments.innerHTML="Comments: " + comments;
-		$("#likes-"+index).append(numberComments);
-		
-	});
-}
-</script>
-
 </head>
 <body>
 
@@ -122,33 +78,27 @@ function getNumberOfLikesAndComments(index) {
 						class="col-md-6 col-md-offset-3 col-md-push-2 text-left fh5co-heading">
 
 
-						<h2>About Me</h2>
+						<h2>${user.username}</h2>
 						<img src="img/${user.profilePhotoUrl}" width="128" height="128">
-
-						<h3>${user.username}</h3>
 
 						<p>${numberOfPosts}&ensp;posts</p>
 						<p>${numberOfFollowers}&ensp;followers</p>
 						<p>${numberOfFollowings}&ensp;followings</p>
 
-						<input class="btn btn-primary" type="submit"
-							onclick="window.location='changeProfile'" value="Change Profile" />
+						
 					</div>
 				</div>
-				<c:forEach items="${allPosts}" var="post" varStatus="loop">
+				<c:forEach items="${allPosts}" var="post">
 					<div class="row">
 						<div class="col-md-4 text-center animate-box">
-							<a class="work" href="showPost?postId=${post.postId}">
+							<a class="work" href="portfolio_detail.html">
 								<div class="work-grid"
 									style="background-image: url(img/${post.url});">
-									<input type="hidden"
-								name="postId" id="postId-${loop.index}" value="${post.postId}" />
-									
 
-									<div class="inner" onmouseover="getNumberOfLikesAndComments(${loop.index})">
+									<div class="inner">
 										<div class="desc">
 											<h3></h3>
-											<span class="cat"><font size="5" id="likes-${loop.index}"></font></span>
+											<span class="cat"></span>
 										</div>
 									</div>
 								</div>
@@ -166,29 +116,6 @@ function getNumberOfLikesAndComments(index) {
 
 
 								<span> </span>
-								<formmm:form commandName="post" enctype="multipart/form-data"
-									onsubmit="Validatebodypanelbumper()">
-
-									<formmm:input type="text" path="location"
-										placeholder="Add Location"></formmm:input>
-									<br />
-
-									<formmm:input type="text" path="description"
-										placeholder="Add Description"></formmm:input>
-									<br />
-									<table>
-										<tr>
-											<td>File to upload:</td>
-											<td><input type="file" id="file" name="file"
-												accept="image/*" /></td>
-										</tr>
-										<tr>
-											<td></td>
-											<td><input class="btn btn-primary" type="submit"
-												value="Upload" /></td>
-										</tr>
-									</table>
-								</formmm:form>
 
 
 							</div>

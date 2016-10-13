@@ -23,7 +23,7 @@ import com.photopia.model.interfaces.IUser;
 public class PostDAO {
 
 	private static final String INSERT_POST = "Insert into posts values(null,?,?,?,?,?);";
-	private static final String GET_ALL_POSTS = "Select url from posts where user_id=?;";
+	private static final String GET_ALL_POSTS = "Select post_id,url from posts where user_id=?;";
 	private static final String GET_POST_INFO = "SELECT post_id,description,location FROM posts where url=?;";
 	private static final String GET_POST_COMMENTS = "select user_id,comment_text from comments where post_id=?;";
 	private static final String GET_COMMENTING_USERS = "select user_name from users where user_id=?;";
@@ -60,7 +60,7 @@ public class PostDAO {
 
 	}
 
-	public List<String> getAllPostsUrls(int userId) throws ClassNotFoundException, SQLException {
+	public List<Post> getAllPostsUrls(int userId) throws ClassNotFoundException, SQLException {
 
 		Connection connection = new DBConnection().getConnection();
 
@@ -71,7 +71,7 @@ public class PostDAO {
 		// }
 		//
 		// });
-		List<String> postUrls = new LinkedList<String>();
+		List<Post> posts = new LinkedList<Post>();
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(GET_ALL_POSTS);
@@ -79,13 +79,15 @@ public class PostDAO {
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				postUrls.add(rs.getString(1));
+				int postId = rs.getInt("post_id");
+				String url = rs.getString("url");
+				posts.add(new Photo(postId, url));
 			}
 
-			return postUrls;
+			return posts;
 
 		} catch (SQLException e) {
-			return new LinkedList<String>();
+			return new LinkedList<Post>();
 		}
 
 	}

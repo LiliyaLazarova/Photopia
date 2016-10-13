@@ -135,6 +135,13 @@ public class WallController {
 
 		response.setContentType("text/json");
 		response.setCharacterEncoding("UTF-8");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 97a65ece3fe12b42c2dbbaf37cacea4af36af2d6
+>>>>>>> 1458f0d12e9e531bfe7b24a0164b4d08de0ca095
 		List<Integer> likesAndComments = new LinkedList<>();
 			try {
 				Integer numberOfLikes = likeDAO.showNumberOfLikes(currentPostId);
@@ -143,6 +150,20 @@ public class WallController {
 				likesAndComments.add(numberOfComments);
 				response.getWriter().println(new Gson().toJson(likesAndComments));
 			} catch (ClassNotFoundException | LikeException | SQLException | IOException | CommentException e) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+		Integer numberOfLikes=0;
+			try {
+				numberOfLikes = likeDAO.showNumberOfLikes(currentPostId);
+				System.out.println(numberOfLikes);
+				response.getWriter().println(new Gson().toJson(numberOfLikes));
+			} catch (ClassNotFoundException | LikeException | SQLException | IOException e) {
+>>>>>>> e081c588265029b6d802f0e2dce6cac54af1a1a1
+>>>>>>> 97a65ece3fe12b42c2dbbaf37cacea4af36af2d6
+>>>>>>> 1458f0d12e9e531bfe7b24a0164b4d08de0ca095
 				//TODO
 			}
 			

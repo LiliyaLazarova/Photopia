@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.gson.Gson;
 import com.photopia.model.Comment;
 import com.photopia.model.CommentDAO;
 import com.photopia.model.LikeDAO;
@@ -45,9 +46,7 @@ public class WallController {
 
 	@RequestMapping(value = "/wall", method = RequestMethod.GET)
 	public String showUserWall(Model model, HttpServletRequest request) {
-		// if(request.getSession() == null) {
-		// return "index";
-		// }
+		
 		model.addAttribute("postid", new Integer(0));
 		model.addAttribute("comment", new Comment());
 		Object userId = request.getSession().getAttribute("userID");
@@ -125,6 +124,25 @@ public class WallController {
 				//todo
 			}
 		
+
+	}
+	
+	
+	@RequestMapping(value = "/numberOfLikes", method = RequestMethod.GET)
+	public void getNumberOfLikes(@RequestParam("currentPostId")  int currentPostId, Model model,
+			HttpServletRequest request,HttpServletResponse response) {
+
+		response.setContentType("text/json");
+		response.setCharacterEncoding("UTF-8");
+		Integer numberOfLikes=0;
+			try {
+				numberOfLikes = likeDAO.showNumberOfLikes(currentPostId);
+				System.out.println(numberOfLikes);
+				response.getWriter().println(new Gson().toJson(numberOfLikes));
+			} catch (ClassNotFoundException | LikeException | SQLException | IOException e) {
+				//TODO
+			}
+			
 
 	}
 }

@@ -4,13 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.springframework.stereotype.Component;
-
 
 public class DBConnection {
 
-	//private static DBConnection instance;
 
+	
 	private Connection connection;
 
 	private static final String DB_SCHEMA = "final_project";
@@ -19,24 +17,13 @@ public class DBConnection {
 	private static final String DB_USERNAME = "lility";
 	private static final String DB_PASSWORD = "QWEasd123";
 
-// private DBConnection() throws Exception {
+
 	public DBConnection() throws SQLException, ClassNotFoundException  {
 		Class.forName("com.mysql.jdbc.Driver");
 		this.connection = DriverManager.getConnection("jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_SCHEMA,
 				DB_USERNAME, DB_PASSWORD);
 	}
 
-//	 public static DBConnection getInstance() {
-//	 if (instance == null) {
-//	 try {
-//	 instance = new DBConnection();
-//	 } catch (Exception e) {
-//	 e.printStackTrace();
-//	 }
-//	 }
-//	
-//	 return instance;
-//	 }
 
 	public Connection getConnection() {
 		return connection;

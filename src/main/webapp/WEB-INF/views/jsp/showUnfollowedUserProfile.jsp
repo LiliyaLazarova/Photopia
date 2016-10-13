@@ -34,29 +34,6 @@
 	<![endif]-->
 <script type="text/javascript" src="js/jquery-3.1.1.min"></script>	
 	
-<script type="text/javascript">
-function validateFileSize(){
-var input = document.getElementById('file');
-  var file = input.files[0].size / 1048576;
-  if (file > 0 && file <= 500) {}}
-  
-  </script>
-
-<script type="text/javascript">
-	function Validatebodypanelbumper(theForm) {
-		var regexp;
-		var extension = new FormData(theForm).get("file").value
-				.lastIndexOf('.');
-		if ((extension.toLowerCase() != ".gif")
-				&& (extension.toLowerCase() != ".jpg") && (extension != "")) {
-			alert("The \"FileUpload\" field contains an unapproved filename.");
-			theForm.file.focus();
-			return false;
-		}
-		return true;
-	}
-</script>
-
 </head>
 <body>
 
@@ -101,17 +78,14 @@ var input = document.getElementById('file');
 						class="col-md-6 col-md-offset-3 col-md-push-2 text-left fh5co-heading">
 
 
-						<h2>About Me</h2>
+						<h2>${user.username}</h2>
 						<img src="img/${user.profilePhotoUrl}" width="128" height="128">
-
-						<h3>${user.username}</h3>
 
 						<p>${numberOfPosts}&ensp;posts</p>
 						<p>${numberOfFollowers}&ensp;followers</p>
 						<p>${numberOfFollowings}&ensp;followings</p>
 
-						<input class="btn btn-primary" type="submit"
-							onclick="window.location='changeProfile'" value="Change Profile" />
+						
 					</div>
 				</div>
 				<c:forEach items="${allPosts}" var="url">
@@ -142,29 +116,6 @@ var input = document.getElementById('file');
 
 
 								<span> </span>
-								<formmm:form commandName="post" enctype="multipart/form-data"
-									onsubmit="Validatebodypanelbumper()">
-
-									<formmm:input type="text" path="location"
-										placeholder="Add Location"></formmm:input>
-									<br />
-
-									<formmm:input type="text" path="description"
-										placeholder="Add Description"></formmm:input>
-									<br />
-									<table>
-										<tr>
-											<td>File to upload:</td>
-											<td><input type="file" id="file" name="file"
-												accept="image/*" /></td>
-										</tr>
-										<tr>
-											<td></td>
-											<td><input class="btn btn-primary" type="submit"
-												value="Upload" /></td>
-										</tr>
-									</table>
-								</formmm:form>
 
 
 							</div>

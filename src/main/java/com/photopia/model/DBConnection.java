@@ -14,8 +14,9 @@ public class DBConnection {
 	private static final String DB_SCHEMA = "final_project";
 	private static final String DB_PORT = "3306";
 	private static final String DB_HOST = "localhost";
-	private static final String DB_USERNAME = "root";
-	private static final String DB_PASSWORD = "9942057";
+	private static final String DB_USERNAME = "lility";
+	private static final String DB_PASSWORD = "QWEasd123";
+
 
 
 	public DBConnection() throws SQLException, ClassNotFoundException  {

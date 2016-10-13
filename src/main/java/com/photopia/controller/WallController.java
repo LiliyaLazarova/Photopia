@@ -4,6 +4,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.gson.Gson;
 import com.photopia.model.Comment;
 import com.photopia.model.CommentDAO;
 import com.photopia.model.LikeDAO;
@@ -45,9 +47,7 @@ public class WallController {
 
 	@RequestMapping(value = "/wall", method = RequestMethod.GET)
 	public String showUserWall(Model model, HttpServletRequest request) {
-		// if(request.getSession() == null) {
-		// return "index";
-		// }
+		
 		model.addAttribute("postid", new Integer(0));
 		model.addAttribute("comment", new Comment());
 		Object userId = request.getSession().getAttribute("userID");
@@ -125,6 +125,27 @@ public class WallController {
 				//todo
 			}
 		
+
+	}
+	
+	
+	@RequestMapping(value = "/numberOfLikes", method = RequestMethod.GET)
+	public void getNumberOfLikes(@RequestParam("currentPostId")  int currentPostId, Model model,
+			HttpServletRequest request,HttpServletResponse response) {
+
+		response.setContentType("text/json");
+		response.setCharacterEncoding("UTF-8");
+		List<Integer> likesAndComments = new LinkedList<>();
+			try {
+				Integer numberOfLikes = likeDAO.showNumberOfLikes(currentPostId);
+				Integer numberOfComments=commentDAO.getNumberOfComments(currentPostId); 
+				likesAndComments.add(numberOfLikes);
+				likesAndComments.add(numberOfComments);
+				response.getWriter().println(new Gson().toJson(likesAndComments));
+			} catch (ClassNotFoundException | LikeException | SQLException | IOException | CommentException e) {
+				//TODO
+			}
+			
 
 	}
 }

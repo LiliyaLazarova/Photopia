@@ -66,12 +66,26 @@
 
 <script type="text/javascript" src="js/jquery-3.1.1.min"></script>
 <script type="text/javascript">
-function addCommentForPost() {
-	var text =$("#text").val();
-	var postId=$("#postId").val();
-	$.post("http://localhost:8080/Photopia/wall?text="+text+"&postId="+postId);
-	document.getElementById('text').value='';
-}
+
+	function addCommentForPost() {
+		var text = $("#text").val();
+		var postId = $("#postId").val();
+		$.post("http://localhost:8080/Photopia/addComment?text=" + text
+				+ "&postId=" + postId, function(data) {
+			$("#iterator").empty();
+			document.getElementById('comments').value = '';
+			for (index in data) {
+				var object = data[index];
+				var name = document.createElement("h1");
+				name.innerHTML = object.commentOwner + ":" + object.text;
+				$("#comments").append(name);
+			}
+
+		});
+		document.getElementById('text').value = '';
+
+	}
+
 </script>
 
 </head>
@@ -91,14 +105,15 @@ function addCommentForPost() {
 				<ul>
 					<li><a href="suggestions">Suggestions</a></li>
 					<li><a href="profile">Profile</a></li>
-					<li class="has-dropdown" onmouseover="showNewsfeed()">
-					<a href="#">Newsfeed</a>
-					
+
+					<li class="has-dropdown" onmouseover="showNewsfeed()"><a
+						href="#">Newsfeed</a>
+
 						<div class="dropdown" id="newsfeeds">
-						
-						<p id ="newsfeeds" >hello</p>
-					</div>
-					</li>
+
+							<p id="newsfeeds">hello</p>
+						</div></li>
+
 					<li><a href="contact.html">Search</a></li>
 
 				</ul>
@@ -114,57 +129,76 @@ function addCommentForPost() {
 			<div class="container">
 				<div class="row top-line animate-box">
 
-				<div class="row">
-							<div class="col-md-4 text-center animate-box">
-								<a class="work" > 
-									<div class="work-grid"
-										style="background-image: url(img/${post.url})">
-							
-										
-									</div>
-								</a>
-							</div>
-							<div class="col-md-4 text-center animate-box">
-								<a class="work" > 
-									<div class="work-grid">
-									<p><font size="4">People liked this photo:</font></p>
+
+					<div class="row">
+						<div class="col-md-4 text-center animate-box">
+							<a class="work">
+								<div class="work-grid"
+									style="background-image: url(img/${post.url})"></div>
+							</a>
+						</div>
+						<div class="col-md-4 text-center animate-box">
+							<a class="work">
+								<div class="work-grid">
+									<p>
+										<font size="4">Location: </font>
+
+									</p>
+									<h1>${post.location}</h1>
+									<p>
+										<font size="4">Description: </font>
+									</p>
+									<h1>${post.description}</h1>
+									<p>
+										<font size="4">People liked this photo:</font>
+									</p>
 									<h1>${names}</h1>
-									<p><font size="4">Comments:</font></p>
-									<c:forEach var="comment" items="${comments}" varStatus="loop">
-									<h1>${comment.commentOwner}:  ${comment.text}</h1>
 									
-							
+								</div>
+							</a>
+						</div>
+						<div class="col-md-4 text-center animate-box">
+										<a class="work">
+											<p id="comments">
+										<font size="4">Comments:</font>
+									</p>
+									<div id="iterator">
+										<c:forEach var="comment" items="${comments}" varStatus="loop">
+
+											<h1>${comment.commentOwner}:${comment.text}</h1>
+
 										</c:forEach>
 									</div>
-								</a>
-							</div>
-							
-						</div>
-						<form class="form">
-							<input id="text" type="input"
-								placeholder="Add your comment here..." /> <input type="hidden"
-								id="postId" value="${post.postId}" />
-							<button class="btn" onclick="addCommentForPost()" type="button">Add
-								Comment</button>
-						</form>
-						
-</div>
-				
+										</a>
+									</div>
+
+					</div>
+					<form class="form">
+						<input id="text" type="input"
+							placeholder="Add your comment here..." /> <input type="hidden"
+							id="postId" value="${post.postId}" />
+						<button class="btn" onclick="addCommentForPost()" type="button">Add
+							Comment</button>
+					</form>
+
+				</div>
 
 
-		<div class="gototop js-top">
-			<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
-		</div>
 
-		<!-- jQuery -->
-		<script src="js/jquery.min.js"></script>
-		<!-- jQuery Easing -->
-		<script src="js/jquery.easing.1.3.js"></script>
-		<!-- Bootstrap -->
-		<script src="js/bootstrap.min.js"></script>
-		<!-- Waypoints -->
-		<script src="js/jquery.waypoints.min.js"></script>
-		<!-- Main -->
-		<script src="js/main.js"></script>
+				<div class="gototop js-top">
+					<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+				</div>
+
+				<!-- jQuery -->
+				<script src="js/jquery.min.js"></script>
+				<!-- jQuery Easing -->
+				<script src="js/jquery.easing.1.3.js"></script>
+				<!-- Bootstrap -->
+				<script src="js/bootstrap.min.js"></script>
+				<!-- Waypoints -->
+				<script src="js/jquery.waypoints.min.js"></script>
+				<!-- Main -->
+				<script src="js/main.js"></script>
+
 </body>
 </html>

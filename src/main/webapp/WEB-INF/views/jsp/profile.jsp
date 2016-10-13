@@ -32,7 +32,15 @@
 <!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-
+<script type="text/javascript" src="js/jquery-3.1.1.min"></script>	
+	
+<script type="text/javascript">
+function validateFileSize(){
+var input = document.getElementById('file');
+  var file = input.files[0].size / 1048576;
+  if (file > 0 && file <= 500) {}}
+  
+  </script>
 
 <script type="text/javascript">
 	function Validatebodypanelbumper(theForm) {
@@ -47,6 +55,27 @@
 		}
 		return true;
 	}
+</script>
+
+<script type="text/javascript">
+function getNumberOfLikesAndComments(index) {
+	var postId = $("#postId-"+index).val();
+	$.get("http://localhost:8080/Photopia/numberOfLikes?currentPostId=" + postId,
+			function (data) {
+		$("#likes-"+index).empty();
+		
+		var likes = data[0];
+		var numberLikes = document.createElement("h1");
+		numberLikes.innerHTML="Likes: " + likes;
+		$("#likes-"+index).append(numberLikes);
+		
+		var comments = data[1];
+		var numberComments = document.createElement("h1");
+		numberComments.innerHTML="Comments: " + comments;
+		$("#likes-"+index).append(numberComments);
+		
+	});
+}
 </script>
 
 </head>
@@ -106,17 +135,20 @@
 							onclick="window.location='changeProfile'" value="Change Profile" />
 					</div>
 				</div>
-				<c:forEach items="${allPosts}" var="url">
+				<c:forEach items="${allPosts}" var="post" varStatus="loop">
 					<div class="row">
 						<div class="col-md-4 text-center animate-box">
-							<a class="work" href="portfolio_detail.html">
+							<a class="work" href="showPost?postId=${post.postId}">
 								<div class="work-grid"
-									style="background-image: url(img/${url});">
+									style="background-image: url(img/${post.url});">
+									<input type="hidden"
+								name="postId" id="postId-${loop.index}" value="${post.postId}" />
+									
 
-									<div class="inner">
+									<div class="inner" onmouseover="getNumberOfLikesAndComments(${loop.index})">
 										<div class="desc">
 											<h3></h3>
-											<span class="cat"></span>
+											<span class="cat"><font size="5" id="likes-${loop.index}"></font></span>
 										</div>
 									</div>
 								</div>

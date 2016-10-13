@@ -32,7 +32,15 @@
 <!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-
+<script type="text/javascript" src="js/jquery-3.1.1.min"></script>	
+	
+<script type="text/javascript">
+function validateFileSize(){
+var input = document.getElementById('file');
+  var file = input.files[0].size / 1048576;
+  if (file > 0 && file <= 500) {}}
+  
+  </script>
 
 <script type="text/javascript">
 	function Validatebodypanelbumper(theForm) {

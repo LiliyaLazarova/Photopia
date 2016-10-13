@@ -78,19 +78,21 @@ function addCommentForPost(index) {
 <script type="text/javascript">
 	function showNewsfeed() {
 
-		$.get("http://localhost:8080/Photopia/NewsfeedController", function(
-				data) {
+
+		$.get("http://localhost:8080/Photopia/NewsfeedController", 
+				function(data) {
+
 			$("#newsfeeds").empty();
+			var message = document.createElement("h1");
+			message.innerHTML="Last Newsfeeds : ";
+			$("#newsfeeds").append(message);
+			
 			for (index in data) {
 				var object = data[index];
 				var name = document.createElement("h1");
-				name.innerHTML = object.userName;
+				name.innerHTML = object.userName+" "+object.message;
 				$("#newsfeeds").append(name);
 
-				var message = document.createElement("p");
-				message.color = "red";
-				message.innerHTML = object.message;
-				$("#newsfeeds").append(message);
 
 			}
 		});
@@ -141,14 +143,10 @@ function unliked(index) {
 				<ul>
 					<li><a href="suggestions">Suggestions</a></li>
 					<li><a href="profile">Profile</a></li>
-					<li class="has-dropdown" onmouseover="showNewsfeed()">
-					<a href="#">Newsfeed</a>
-					
-						<div class="dropdown" id="newsfeeds">
-						
-						<p id ="newsfeeds" >hello</p>
-					</div>
-					</li>
+
+					<li class="has-dropdown" onmouseover="showNewsfeed()"><a
+						href="#">Newsfeed</a></li>
+
 					<li><a href="contact.html">Search</a></li>
 
 				</ul>
@@ -160,11 +158,19 @@ function unliked(index) {
 			</div>
 		</div>
 		</nav>
+
 		<div id="fh5co-work">
 			<div class="container">
 				<div class="row top-line animate-box">
 
-				
+
+					<div
+						class="col-md-6 col-md-offset-3 col-md-push-2 text-right fh5co-heading">
+						
+						<div id="newsfeeds"></div>
+
+					</div>
+
 
 					<c:forEach var="post" items="${allFollowingsPosts}" varStatus="loop">
 						<div class="row">
@@ -175,8 +181,8 @@ function unliked(index) {
 										style="background-image: url(img/${post.url})">
 										<div class="inner">
 											<div class="desc">
-												<h3>Folding Light</h3>
-												<span class="cat">Branding</span>
+												<h3></h3>
+												<span class="cat"></span>
 											</div>
 										</div>
 									</div>
@@ -188,11 +194,14 @@ function unliked(index) {
 							<input id="text-${loop.index}" type="input"
 								placeholder="Add your comment here..." /> <input type="hidden"
 								name="postId" id="postId-${loop.index}" value="${post.postId}" />
-							<button class="btn" onclick="addCommentForPost(${loop.index})" type="button">Add
-								Comment</button>
+
+							<button class="btn" onclick="addCommentForPost(${loop.index})"
+								type="button">Add Comment</button>
 						</form>
 
-						<input type="button" id="myButton-${loop.index}" onclick="onClickChange(${loop.index})" value="Like" />
+						<input type="button" id="myButton-${loop.index}"
+							onclick="onClickChange(${loop.index})" value="Like" />
+
 
 						<br />
 						<br />

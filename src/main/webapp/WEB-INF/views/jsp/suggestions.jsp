@@ -112,7 +112,8 @@ function follow(index) {
 
 
 								<c:if test="${not empty user.profilePhotoUrl}">
-									<img src="img/${user.profilePhotoUrl}" width="150" height="150">
+									<a href="showUnfollowedUserProfile?userId=${user.userId}"><img  src="img/${user.profilePhotoUrl}" width="150" height="150"></a>
+								
 								</c:if>
 
 								<c:if test="${empty user.profilePhotoUrl}">

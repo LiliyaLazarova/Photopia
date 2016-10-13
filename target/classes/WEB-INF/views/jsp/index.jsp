@@ -24,7 +24,7 @@
 
 <style>
 body {
-	background-image: url("img/lens.jpg");
+	background-image: url("img/l.jpeg");
 	background-size: auto;
 	background-repeat: no-repeat;
 }
@@ -40,17 +40,22 @@ body {
 			class="loader"></span> </header>
 
 		<formmm:form commandName="user" class="form">
-			<formmm:input path="email" class="input" placeholder="E-mail" />
-			<formmm:input path="password" class="input" placeholder="Password" type="password"/>
+
 			<c:if test="${not empty errorMessage}">
 				<font color="red"> <c:out value="${errorMessage}" />
 				</font>
 			</c:if>
 
+			<formmm:input path="email" class="input" placeholder="E-mail" />
+			<formmm:input path="password" class="input" placeholder="Password"
+				type="password" />
+
+
 			<button class="btn" type="submit"></button>
 		</formmm:form>
 	</div>
 
+	<h1>Photopia</h1>
 
 	<button class="resetbtn" type="reset"
 		onclick="window.location.href='register'">Register</button>

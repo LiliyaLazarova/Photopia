@@ -61,44 +61,36 @@
 <!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-<script type="text/javascript">
-	function change() {
-		var elem = document.getElementById("myButton");
-		if (elem.value == "Like") {
-			elem.value = "Unlike";
-		} else
-			elem.value = "Like";
-	}
-</script>
+
 
 
 <script type="text/javascript" src="js/jquery-3.1.1.min"></script>
-<script type="text/javascript">
-	function addCommentForPost() {
-		var text = $("#text").val();
-		var postId = $("#postId").val();
-		$.post("http://localhost:8080/Photopia/wall?text=" + text + "&postId="
-				+ postId);
-		document.getElementById('text').value = '';
 
-	}
+<script type="text/javascript">
+function addCommentForPost(index) {
+	var text =$("#text-"+index).val();
+	var postId=$("#postId-"+index).val();
+	$.post("http://localhost:8080/Photopia/wall?text="+text+"&postId="+postId);
+	document.getElementById('text-'+index).value='';
+}
 </script>
+
 <script type="text/javascript">
 	function showNewsfeed() {
 
-		$.get("http://localhost:8080/Photopia/NewsfeedController",
+		$.get("http://localhost:8080/Photopia/NewsfeedController", 
 				function(data) {
 			$("#newsfeeds").empty();
+			var message = document.createElement("h1");
+			message.innerHTML="Last Newsfeeds : ";
+			$("#newsfeeds").append(message);
+			
 			for (index in data) {
 				var object = data[index];
 				var name = document.createElement("h1");
-				name.innerHTML = object.userName;
+				name.innerHTML = object.userName+" "+object.message;
 				$("#newsfeeds").append(name);
 
-				var message = document.createElement("p");
-				message.color = "red";
-				message.innerHTML = object.message;
-				$("#newsfeeds").append(message);
 
 			}
 		});
@@ -106,27 +98,32 @@
 	}
 </script>
 <script type="text/javascript">
-	function liked() {
-		var postId = $("#postId").val();
-		$.post("http://localhost:8080/Photopia/like?currentPostId="
-				+ postId);
-		onClickChange();
+	function liked(index) {
+		var postId = $("#postId-"+index).val();
+		$.post("http://localhost:8080/Photopia/like?currentPostId=" + postId);
+		
 
 	}
-	
-	
-	
 </script>
 <script type="text/javascript">
-function onClickChange() {
-	var elem = document.getElementById("myButton");
-	if (elem.value == "Like") {
-		elem.value = "Unlike";
-	} else
-		elem.value = "Like";
-}
+	function onClickChange(index) {
+		var elem = document.getElementById("myButton-"+index);
+		if (elem.value == "Like") {
+			
+			elem.value = "Unlike";
+			liked(index);
+		} else
+			elem.value = "Like";
+		unliked(index);
+	}
 </script>
 
+<script type="text/javascript">
+function unliked(index) {
+	var postId = $("#postId-"+index).val();
+	$.post("http://localhost:8080/Photopia/unlike?currentPostId=" + postId);
+}
+</script>
 </head>
 <body>
 
@@ -145,12 +142,7 @@ function onClickChange() {
 					<li><a href="suggestions">Suggestions</a></li>
 					<li><a href="profile">Profile</a></li>
 					<li class="has-dropdown" onmouseover="showNewsfeed()"><a
-						href="#">Newsfeed</a>
-						
-						
-							
-
-						</li>
+						href="#">Newsfeed</a></li>
 					<li><a href="contact.html">Search</a></li>
 
 				</ul>
@@ -162,71 +154,52 @@ function onClickChange() {
 			</div>
 		</div>
 		</nav>
+
 		<div id="fh5co-work">
 			<div class="container">
 				<div class="row top-line animate-box">
-				
-			<div class="dropdown" id="newsfeeds">
-							<p>offffffff</p></div>	
 
-					<c:forEach var="post" items="${allFollowingsPosts}">
+					<div
+						class="col-md-6 col-md-offset-3 col-md-push-2 text-right fh5co-heading">
+						
+						<div id="newsfeeds"></div>
+
+					</div>
+
+					<c:forEach var="post" items="${allFollowingsPosts}" varStatus="loop">
 						<div class="row">
 							<div class="col-md-4 text-center animate-box">
-								<a class="work" href="portfolio_detail.html"> <c:out
+								<a class="work" href="showPost?postId=${post.postId}"> <c:out
 										value="${post.ownerName}" />
 									<div class="work-grid"
 										style="background-image: url(img/${post.url})">
 										<div class="inner">
 											<div class="desc">
-												<h3>Folding Light</h3>
-												<span class="cat">Branding</span>
+												<h3></h3>
+												<span class="cat"></span>
 											</div>
 										</div>
-
 									</div>
-
-
 								</a>
-
 							</div>
 
 						</div>
 						<form class="form">
-							<input id="text" type="input"
+							<input id="text-${loop.index}" type="input"
 								placeholder="Add your comment here..." /> <input type="hidden"
-								id="postId" value="${post.postId}" />
-							<button class="btn" onclick="addCommentForPost()" type="button">Add
-								Comment</button>
+								name="postId" id="postId-${loop.index}" value="${post.postId}" />
+							<button class="btn" onclick="addCommentForPost(${loop.index})"
+								type="button">Add Comment</button>
 						</form>
 
-						<input type="button" id="myButton" onclick="liked()" value="Like" />
+						<input type="button" id="myButton-${loop.index}"
+							onclick="onClickChange(${loop.index})" value="Like" />
 
 						<br />
 						<br />
 						<br />
 
 					</c:forEach>
-
-
-					<!-- LikeBtn.com BEGIN -->
-					<span class="likebtn-wrapper" data-theme="custom"
-						data-icon_l="sml3-h" data-icon_d="sml3-u" data-identifier="item_1"></span>
-					<script>
-						(function(d, e, s) {
-							if (d.getElementById("likebtn_wjs"))
-								return;
-							a = d.createElement(e);
-							m = d.getElementsByTagName(e)[0];
-							a.async = 1;
-							a.id = "likebtn_wjs";
-							a.src = s;
-							m.parentNode.insertBefore(a, m)
-						})
-								(document, "script",
-										"//w.likebtn.com/js/w/widget.js");
-					</script>
-					<!-- LikeBtn.com END -->
-
 				</div>
 			</div>
 
@@ -235,41 +208,14 @@ function onClickChange() {
 				<div class="container">
 					<div class="row animate-box">
 						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-							<h2>Get Started</h2>
-							<p>We create beautiful themes for your site behind the word
-								mountains, far from the countries Vokalia and Consonantia, there
-								live the blind texts.</p>
 							<p>
-								<a href="#" class="btn btn-primary">Let's work together</a>
+								<a href="#" class="btn btn-primary">Show more results</a>
 							</p>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<footer id="fh5co-footer" role="contentinfo">
-			<div class="container">
-				<div class="row copyright">
-					<div class="col-md-12 text-center">
-						<p>
-							<small class="block">&copy; 2016 Free HTML5. All Rights
-								Reserved.</small> <small class="block">Designed by <a
-								href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a>
-								Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a>
-								&amp; <a href="http://blog.gessato.com/" target="_blank">Gessato</a></small>
-						</p>
-
-						<ul class="fh5co-social-icons">
-							<li><a href="#"><i class="icon-twitter"></i></a></li>
-							<li><a href="#"><i class="icon-facebook"></i></a></li>
-							<li><a href="#"><i class="icon-linkedin"></i></a></li>
-							<li><a href="#"><i class="icon-dribbble"></i></a></li>
-						</ul>
-
-					</div>
-				</div>
-			</div>
-			</footer>
 		</div>
 
 		<div class="gototop js-top">

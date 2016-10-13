@@ -48,6 +48,17 @@ public abstract class Post implements IPost {
 			throw new PostException("No valid postId!");
 		}
 	}
+	
+	
+
+	public Post(String ownerName, String description, String location, String url) {
+		super();
+		this.ownerName = ownerName;
+		this.description = description;
+		this.location = location;
+		this.url = url;
+		//validation
+	}
 
 	public int getPostId() {
 		return postId;

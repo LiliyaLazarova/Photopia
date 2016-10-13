@@ -17,10 +17,10 @@ public class CommentDAO {
 	
 	public static final String ADD_COMMENT="Insert into comments values(null,?,?,?,?)";
 	
-	public void addCommentToPost(int postId,int userId,String text) throws CommentException {
-		Connection connection = DBConnection.getInstance().getConnection();
+	public void addCommentToPost(int postId,int userId,String text) throws CommentException, ClassNotFoundException, SQLException {
 		
-		// Connection connection = new DBConnection().getConnection();
+		
+		Connection connection = new DBConnection().getConnection();
 
 		try {
 			PreparedStatement ps = connection.prepareStatement(ADD_COMMENT);

@@ -1,6 +1,8 @@
 package com.photopia.controller;
 
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,17 +39,21 @@ public class LoginController {
 	
 	@RequestMapping(value="/index", method = RequestMethod.POST)
 	
-	public String login(@ModelAttribute User user,Model model,HttpServletRequest request) {
-//		UserDAO userDAO = new UserDAO();
+	public String login(@ModelAttribute @Valid User user,BindingResult bindingResult,Model model,HttpServletRequest request) {
+
 		int id;
 		try {
+//			if(bindingResult.hasErrors()){
+//				model.addAttribute("errorMessage", "Login failed.");
+//				return "index";
+//			}
 			id = userDAO.loginUser(user);
 			HttpSession session = request.getSession();
 			session.setAttribute("userID", id);
 			session.setMaxInactiveInterval(SESSION_EXPIRATION_TIME_IN_SECONDS);
 			
-		} catch (UserException e) {
-			model.addAttribute("errorMessage","Invalid user or password");
+		} catch (UserException | ClassNotFoundException | SQLException e) {
+			model.addAttribute("errorMessage","Invalid email or password");
 			return "index";
 		}
 		

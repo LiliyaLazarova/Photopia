@@ -2,6 +2,7 @@ package com.photopia.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,7 +67,7 @@ public class ProfileController {
 			model.addAttribute("allPosts",allPosts);
 			model.addAttribute("post",new Photo());
 			
-		} catch (UserException e) {
+		} catch (UserException | ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -94,7 +95,12 @@ public class ProfileController {
 		
 		String url=id+"_"+multipartFile.getOriginalFilename();
 		photo.setUrl(url);
-		postDAO.uploadPost(id, photo);
+		try {
+			postDAO.uploadPost(id, photo);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return "redirect:/profile";
 	}

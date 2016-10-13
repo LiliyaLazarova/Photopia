@@ -1,6 +1,7 @@
 package com.photopia.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -20,35 +21,32 @@ import com.photopia.model.exceptions.NewsfeedException;
 
 @Controller
 public class NewsfeedController {
-	
+
 	@Autowired
 	NewsfeedDAO newsfeedDAO;
 
-	
 	@RequestMapping(value = "/NewsfeedController", method = RequestMethod.GET)
 	public void showNewsFeed(Model model, HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/json");
 		response.setCharacterEncoding("UTF-8");
-		Set<NewsFeed> allNewsfeeds=new TreeSet<NewsFeed>();
+		Set<NewsFeed> allNewsfeeds = new TreeSet<NewsFeed>();
 		Object userId = request.getSession().getAttribute("userID");
 		if (userId == null) {
-		//	return "redirect:/index";
+			// return "redirect:/index";
 		}
 		int id = (int) userId;
-		
-			try {
 
-				allNewsfeeds.addAll(newsfeedDAO.getMyCommentersNames(id));
-				allNewsfeeds.addAll(newsfeedDAO.getMyLikersNames(id));
+		try {
+
+			allNewsfeeds.addAll(newsfeedDAO.getMyCommentersNames(id));
+			allNewsfeeds.addAll(newsfeedDAO.getMyLikersNames(id));
 			allNewsfeeds.addAll(newsfeedDAO.getMyFollowersNames(id));
 
-			} catch (NewsfeedException e) {
-				//todo
-			}
+		} catch (NewsfeedException | ClassNotFoundException | SQLException e) {
+			// todo
+		}
 
-			
-		
 		try {
 			response.getWriter().println(new Gson().toJson(allNewsfeeds));
 		} catch (IOException e) {

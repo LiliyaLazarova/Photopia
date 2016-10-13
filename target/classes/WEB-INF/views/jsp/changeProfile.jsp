@@ -157,6 +157,8 @@
 								value="${user.biography}" />
 							<h3>Gender:</h3>
 							<formmm:input path="gender" type="text" value="${user.gender}" />
+							
+							<input type="hidden" name="profilePhotoUrl" value="${user.profilePhotoUrl}" />
 							<br />
 							<br />
 									

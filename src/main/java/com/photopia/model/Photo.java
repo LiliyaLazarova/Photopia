@@ -16,5 +16,9 @@ public class Photo extends Post{
 	public Photo(){
 		super();
 	}
+	
+	public Photo(String ownerName, String description, String location, String url){
+		super(ownerName,description,location,url);
+	}
 
 }

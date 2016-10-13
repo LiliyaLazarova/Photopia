@@ -32,10 +32,9 @@ public class NewsfeedDAO {
 			+ " join posts p on(l.post_id=p.post_id)"
 			+ " where p.user_id=?;";
 
-	public Set<NewsFeed> getMyFollowersNames(int currentUserId) throws NewsfeedException {
+	public Set<NewsFeed> getMyFollowersNames(int currentUserId) throws NewsfeedException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 		Set<NewsFeed> newsfeeds = new TreeSet<NewsFeed>();
 
 		try {
@@ -43,7 +42,7 @@ public class NewsfeedDAO {
 			ps.setInt(1, currentUserId);
 
 			ResultSet rs = ps.executeQuery();
-			// rs.next();
+			
 			while (rs.next()) {
 				String name = rs.getString("user_name");
 				Timestamp time = rs.getTimestamp("time_stamp");
@@ -57,9 +56,9 @@ public class NewsfeedDAO {
 		return newsfeeds;
 	}
 
-	public Set<NewsFeed> getMyCommentersNames(int currentUserId) throws NewsfeedException {
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+	public Set<NewsFeed> getMyCommentersNames(int currentUserId) throws NewsfeedException, ClassNotFoundException, SQLException {
+
+		Connection connection = new DBConnection().getConnection();
 		Set<NewsFeed> newsfeeds = new TreeSet<NewsFeed>();
 
 		try {
@@ -72,7 +71,7 @@ public class NewsfeedDAO {
 				String name = rs.getString("user_name");
 				String text = rs.getString("comment_text");
 				Timestamp time = rs.getTimestamp("time_stamp");
-				newsfeeds.add(new NewsFeed(name, "commented: " + text + " your photo", time));
+				newsfeeds.add(new NewsFeed(name, "commented your photo : " + text, time));
 			}
 
 		} catch (SQLException e) {
@@ -82,10 +81,9 @@ public class NewsfeedDAO {
 		return newsfeeds;
 	}
 
-	public Set<NewsFeed> getMyLikersNames(int currentUserId) throws NewsfeedException {
+	public Set<NewsFeed> getMyLikersNames(int currentUserId) throws NewsfeedException, ClassNotFoundException, SQLException {
 
-		Connection connection = DBConnection.getInstance().getConnection();
-		// Connection connection = new DBConnection().getConnection();
+		 Connection connection = new DBConnection().getConnection();
 		Set<NewsFeed> newsfeeds = new TreeSet<NewsFeed>();
 
 		try {

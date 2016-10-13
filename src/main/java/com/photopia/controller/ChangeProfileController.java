@@ -2,6 +2,7 @@ package com.photopia.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,9 +50,8 @@ public class ChangeProfileController {
 			IUser user=userDAO.getUserInfo(id);
 			System.out.println(user);
 			model.addAttribute("user", user);
-	//		model.addAttribute("post", new Photo());
 			
-		} catch (UserException e) {
+		} catch (UserException | ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -79,14 +79,14 @@ public class ChangeProfileController {
 
 		
 		String url=id+"_"+multipartFile.getOriginalFilename();
-		user.setProfilePhotoUrl(url);
-
-		System.out.println(user);
-		System.out.println(url);
+		if(!url.endsWith("_")) {
+		 user.setProfilePhotoUrl(url);
+		}
+		
 		
 		try {
 			userDAO.changeProfileInfo(user);
-		} catch (UserException e) {
+		} catch (UserException | ClassNotFoundException | SQLException e) {
 			return "redirect:/profile";
 		}
 		

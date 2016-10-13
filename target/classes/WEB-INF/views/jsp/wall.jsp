@@ -128,11 +128,19 @@ function unliked(index) {
 </script>
 
 <script type="text/javascript">
+<<<<<<< HEAD
 function getNumberOfLikesAndComments(index) {
+=======
+function getNumberOfLikes(index) {
+>>>>>>> 97a65ece3fe12b42c2dbbaf37cacea4af36af2d6
 	var postId = $("#postId-"+index).val();
 	$.get("http://localhost:8080/Photopia/numberOfLikes?currentPostId=" + postId,
 			function (data) {
 		$("#likes-"+index).empty();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 97a65ece3fe12b42c2dbbaf37cacea4af36af2d6
 		
 		var likes = data[0];
 		var numberLikes = document.createElement("h1");
@@ -144,6 +152,15 @@ function getNumberOfLikesAndComments(index) {
 		numberComments.innerHTML="Comments: " + comments;
 		$("#likes-"+index).append(numberComments);
 		
+<<<<<<< HEAD
+=======
+=======
+		var object = data;
+		var numberOfLikes = document.createElement("h1");
+		numberOfLikes.innerHTML="Likes: " + object;
+		$("#likes-"+index).append(numberOfLikes);
+>>>>>>> e081c588265029b6d802f0e2dce6cac54af1a1a1
+>>>>>>> 97a65ece3fe12b42c2dbbaf37cacea4af36af2d6
 	});
 }
 </script>
@@ -200,7 +217,11 @@ function getNumberOfLikesAndComments(index) {
 										value="${post.ownerName}" />
 									<div class="work-grid"
 										style="background-image: url(img/${post.url})">
+<<<<<<< HEAD
 										<div class="inner" onmouseover="getNumberOfLikesAndComments(${loop.index})">
+=======
+										<div class="inner" onmouseover="getNumberOfLikes(${loop.index})">
+>>>>>>> 97a65ece3fe12b42c2dbbaf37cacea4af36af2d6
 											<div class="desc">
 												
 												<span class="cat"><font size="5" id="likes-${loop.index}"></font></span>

@@ -133,6 +133,7 @@ function getNumberOfLikes(index) {
 	$.get("http://localhost:8080/Photopia/numberOfLikes?currentPostId=" + postId,
 			function (data) {
 		$("#likes-"+index).empty();
+<<<<<<< HEAD
 		
 		var likes = data[0];
 		var numberLikes = document.createElement("h1");
@@ -144,6 +145,12 @@ function getNumberOfLikes(index) {
 		numberComments.innerHTML="Comments: " + comments;
 		$("#likes-"+index).append(numberComments);
 		
+=======
+		var object = data;
+		var numberOfLikes = document.createElement("h1");
+		numberOfLikes.innerHTML="Likes: " + object;
+		$("#likes-"+index).append(numberOfLikes);
+>>>>>>> e081c588265029b6d802f0e2dce6cac54af1a1a1
 	});
 }
 </script>

@@ -28,6 +28,15 @@ public class User implements IUser {
 	private String gender;
 	private String biography;
 	private String profilePhotoUrl;
+	private boolean isFollowed;
+
+	public boolean isFollowed() {
+		return isFollowed;
+	}
+
+	public void setFollowed(boolean isFollowed) {
+		this.isFollowed = isFollowed;
+	}
 
 	private List<Post> userPosts=new LinkedList<Post>();
 
@@ -64,6 +73,11 @@ public class User implements IUser {
 		setUserId(userId);
 		setUsername(name);
 		setProfilePhotoUrl(url);
+	}
+
+	public User(int userId, String username) throws UserException {
+		setUserId(userId);
+		setUsername(username);
 	}
 
 	public int getUserId() {

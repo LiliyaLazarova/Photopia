@@ -32,8 +32,8 @@
 <!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-<script type="text/javascript" src="js/jquery-3.1.1.min"></script>	
-	
+<script type="text/javascript" src="js/jquery-3.1.1.min"></script>
+
 </head>
 <body>
 
@@ -50,7 +50,7 @@
 			<div class="fh5co-top-menu menu-1 text-center">
 				<ul>
 					<li><a href="suggestions">Suggestion</a></li>
-					<li class="active"><a>Profile</a></li>
+					<li><a href="profile">Profile</a></li>
 					<li class="has-dropdown"><a href="#">Newsfeed</a>
 						<ul class="dropdown">
 							<li><a href="#">Web Design</a></li>
@@ -85,13 +85,13 @@
 						<p>${numberOfFollowers}&ensp;followers</p>
 						<p>${numberOfFollowings}&ensp;followings</p>
 
-						
+
 					</div>
 				</div>
 				<c:forEach items="${allPosts}" var="post">
 					<div class="row">
 						<div class="col-md-4 text-center animate-box">
-							<a class="work" href="portfolio_detail.html">
+							<a class="work">
 								<div class="work-grid"
 									style="background-image: url(img/${post.url});">
 
@@ -106,35 +106,19 @@
 						</div>
 				</c:forEach>
 
-
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
-						<div class="author">
-							<div class="author-inner animate-box"
-								style="background-image: url(images/person3.jpg);"></div>
-							<div class="desc animate-box">
-
-
-								<span> </span>
-
-
-							</div>
-						</div>
-
-
-						<div class="col-md-6 animate-box skills">
-							<h3>Likes</h3>
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="10"
-									aria-valuemin="0" aria-valuemax="100" style="width: 10%">Likes</div>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
+	</div>
+	</div>
 
+	<div class="col-md-6 animate-box skills">
+		<h3>Likes</h3>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="10"
+				aria-valuemin="0" aria-valuemax="100" style="width: 10%">Likes</div>
+		</div>
+	</div>
 
 	<div id="fh5co-started">
 		<div class="container">

@@ -66,6 +66,11 @@ public class User implements IUser {
 		setProfilePhotoUrl(url);
 	}
 
+	public User(int userId, String username) throws UserException {
+		setUserId(userId);
+		setUsername(username);
+	}
+
 	public int getUserId() {
 		return userId;
 	}

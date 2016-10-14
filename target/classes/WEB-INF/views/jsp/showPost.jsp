@@ -66,7 +66,6 @@
 
 <script type="text/javascript" src="js/jquery-3.1.1.min"></script>
 <script type="text/javascript">
-
 	function addCommentForPost() {
 		var text = $("#text").val();
 		var postId = $("#postId").val();
@@ -85,7 +84,6 @@
 		document.getElementById('text').value = '';
 
 	}
-
 </script>
 
 </head>
@@ -128,8 +126,6 @@
 		<div id="fh5co-work">
 			<div class="container">
 				<div class="row top-line animate-box">
-
-
 					<div class="row">
 						<div class="col-md-4 text-center animate-box">
 							<a class="work">
@@ -153,24 +149,24 @@
 										<font size="4">People liked this photo:</font>
 									</p>
 									<h1>${names}</h1>
-									
+
 								</div>
 							</a>
 						</div>
 						<div class="col-md-4 text-center animate-box">
-										<a class="work">
-											<p id="comments">
-										<font size="4">Comments:</font>
-									</p>
-									<div id="iterator">
-										<c:forEach var="comment" items="${comments}" varStatus="loop">
+							<a class="work">
+								<p id="comments">
+									<font size="4">Comments:</font>
+								</p>
+								<div id="iterator">
+									<c:forEach var="comment" items="${comments}" varStatus="loop">
 
-											<h1>${comment.commentOwner}:${comment.text}</h1>
+										<h1>${comment.commentOwner}:${comment.text}</h1>
 
-										</c:forEach>
-									</div>
-										</a>
-									</div>
+									</c:forEach>
+								</div>
+							</a>
+						</div>
 
 					</div>
 					<form class="form">
@@ -199,6 +195,5 @@
 				<script src="js/jquery.waypoints.min.js"></script>
 				<!-- Main -->
 				<script src="js/main.js"></script>
-
 </body>
 </html>

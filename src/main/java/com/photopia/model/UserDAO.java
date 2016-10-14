@@ -48,7 +48,9 @@ public class UserDAO {
 	
 	private static final String ADD_FOLLOWER = "insert into user_followers values(?,?,?);";
 	private static final String DELETE_FOLLOWER = "delete from user_followers where following_id=? and follower_id=?;";
-
+	private static final String GET_ALL_FOLLOWINGS="SELECT user_id,user_name from users u"+
+	" join user_followers uf on (u.user_id=uf.following_id) where uf.follower_id=?";
+	private static final String GET_ALL_FOLLOWERS="";
 	
 	
 	public int registerUser(IUser user) throws UserException, ClassNotFoundException, SQLException {
@@ -360,6 +362,31 @@ public class UserDAO {
 		}
 		
 	}
+	
+	public List<IUser> getFollowingsList(int currentUserId) throws UserException, ClassNotFoundException, SQLException {
+		Connection connection = new DBConnection().getConnection();
+
+		List<IUser> allFollowings = new LinkedList<IUser>();
+
+		try {
+			PreparedStatement ps = connection.prepareStatement(GET_ALL_FOLLOWINGS);
+			ps.setInt(1, currentUserId);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+
+				int userId = rs.getInt("user_id");
+				String name = rs.getString("user_name");
+				allFollowings.add(new User(userId, name));
+			}
+			return allFollowings;
+
+		} catch (SQLException e) {
+			throw new UserException("No followings available");
+		}
+	}
+	
+	
 
 
 }

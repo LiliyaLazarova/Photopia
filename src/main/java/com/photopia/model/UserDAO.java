@@ -57,6 +57,7 @@ public class UserDAO {
 			+ "where uf.following_id=?";
 	private static final String CHECK_FOLLOWER="select following_id from user_followers "
 			+ "where following_id=? AND follower_id=?;";
+
 	
 	
 	public int registerUser(IUser user) throws UserException, ClassNotFoundException, SQLException {

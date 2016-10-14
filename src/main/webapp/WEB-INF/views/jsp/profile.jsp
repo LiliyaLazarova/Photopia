@@ -85,6 +85,7 @@ function getFollowingsList(){
 		var message=document.createElement("h1");
 		message.innerHTML="Followings: ";
 		$("#followingsAndFollowers").append(message);
+
 		for (index in data) {
 			var object = data[index];
 			var name = document.createElement("h1");
@@ -165,6 +166,7 @@ function startFollow(index) {
 </script>
 
 
+
 </head>
 <body>
 
@@ -234,6 +236,10 @@ function startFollow(index) {
 								<div id="followingsAndFollowers">
 									
 								</div>
+								<div id="followers">
+									
+								</div>
+								
 							</a>
 						</div>
 					</div>

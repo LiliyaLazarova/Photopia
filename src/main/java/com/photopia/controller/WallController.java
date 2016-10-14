@@ -34,7 +34,6 @@ import com.photopia.model.exceptions.LikeException;
 import com.photopia.model.exceptions.PostException;
 import com.photopia.model.exceptions.UserException;
 
-
 @Controller
 public class WallController {
 
@@ -47,7 +46,7 @@ public class WallController {
 
 	@RequestMapping(value = "/wall", method = RequestMethod.GET)
 	public String showUserWall(Model model, HttpServletRequest request) {
-		
+
 		model.addAttribute("postid", new Integer(0));
 		model.addAttribute("comment", new Comment());
 		Object userId = request.getSession().getAttribute("userID");
@@ -66,107 +65,76 @@ public class WallController {
 	}
 
 	@RequestMapping(value = "/wall", method = RequestMethod.POST)
-	public void addComment(@RequestParam("postId") int postId,@RequestParam("text") String text, @ModelAttribute Comment comment, Model model,
-			HttpServletRequest request) {
+	public void addComment(@RequestParam("postId") int postId, @RequestParam("text") String text,
+			@ModelAttribute Comment comment, Model model, HttpServletRequest request) {
 
 		System.out.println("POST");
 		System.out.println(text);
 		Object userId = request.getSession().getAttribute("userID");
 		if (userId == null) {
-//			return "redirect:/index";
+			// return "redirect:/index";
 		}
 		int id = (int) userId;
 		try {
-			
+
 			commentDAO.addCommentToPost(postId, id, text);
-			
 
 		} catch (CommentException | ClassNotFoundException | SQLException e) {
-			
-			System.out.println("v catch");
-//			return "redirect:/wall";
-		}
-		
 
-//		return "redirect:/wall";
+			System.out.println("v catch");
+			// return "redirect:/wall";
+		}
+
+		// return "redirect:/wall";
 
 	}
-	
+
 	@RequestMapping(value = "/like", method = RequestMethod.POST)
-	public void addLike(@RequestParam("currentPostId")  int currentPostId, Model model,
-			HttpServletRequest request) {
+	public void addLike(@RequestParam("currentPostId") int currentPostId, Model model, HttpServletRequest request) {
 
 		Object userId = request.getSession().getAttribute("userID");
-		
-		int id = (int) userId;
-		
 
-		
+		int id = (int) userId;
+
 		try {
 			likeDAO.addLikeToPost(id, currentPostId);
 		} catch (PostException | ClassNotFoundException | SQLException e) {
-			//todo
+			// todo
 		}
-
 
 	}
 
 	@RequestMapping(value = "/unlike", method = RequestMethod.POST)
-	public void addUnlike(@RequestParam("currentPostId")  int currentPostId, Model model,
-			HttpServletRequest request) {
+	public void addUnlike(@RequestParam("currentPostId") int currentPostId, Model model, HttpServletRequest request) {
 
 		Object userId = request.getSession().getAttribute("userID");
-		
+
 		int id = (int) userId;
-		
-			try {
-				likeDAO.removeLikeFromPost(currentPostId,id);
-			} catch (ClassNotFoundException | LikeException | SQLException e) {
-				//todo
-			}
-		
+
+		try {
+			likeDAO.removeLikeFromPost(currentPostId, id);
+		} catch (ClassNotFoundException | LikeException | SQLException e) {
+			// TODO
+		}
 
 	}
-	
-	
+
 	@RequestMapping(value = "/numberOfLikes", method = RequestMethod.GET)
-	public void getNumberOfLikes(@RequestParam("currentPostId")  int currentPostId, Model model,
-			HttpServletRequest request,HttpServletResponse response) {
+	public void getNumberOfLikes(@RequestParam("currentPostId") int currentPostId, Model model,
+			HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/json");
 		response.setCharacterEncoding("UTF-8");
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 97a65ece3fe12b42c2dbbaf37cacea4af36af2d6
->>>>>>> 1458f0d12e9e531bfe7b24a0164b4d08de0ca095
-		List<Integer> likesAndComments = new LinkedList<>();
-			try {
-				Integer numberOfLikes = likeDAO.showNumberOfLikes(currentPostId);
-				Integer numberOfComments=commentDAO.getNumberOfComments(currentPostId); 
-				likesAndComments.add(numberOfLikes);
-				likesAndComments.add(numberOfComments);
-				response.getWriter().println(new Gson().toJson(likesAndComments));
-			} catch (ClassNotFoundException | LikeException | SQLException | IOException | CommentException e) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
-		Integer numberOfLikes=0;
-			try {
-				numberOfLikes = likeDAO.showNumberOfLikes(currentPostId);
-				System.out.println(numberOfLikes);
-				response.getWriter().println(new Gson().toJson(numberOfLikes));
-			} catch (ClassNotFoundException | LikeException | SQLException | IOException e) {
->>>>>>> e081c588265029b6d802f0e2dce6cac54af1a1a1
->>>>>>> 97a65ece3fe12b42c2dbbaf37cacea4af36af2d6
->>>>>>> 1458f0d12e9e531bfe7b24a0164b4d08de0ca095
-				//TODO
-			}
-			
 
+		List<Integer> likesAndComments = new LinkedList<>();
+		try {
+			Integer numberOfLikes = likeDAO.showNumberOfLikes(currentPostId);
+			Integer numberOfComments = commentDAO.getNumberOfComments(currentPostId);
+			likesAndComments.add(numberOfLikes);
+			likesAndComments.add(numberOfComments);
+			response.getWriter().println(new Gson().toJson(likesAndComments));
+		} catch (ClassNotFoundException | LikeException | SQLException | IOException | CommentException e) {
+			// TODO
+		}
 	}
 }

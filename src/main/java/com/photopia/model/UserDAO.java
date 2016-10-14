@@ -1,6 +1,8 @@
 package com.photopia.model;
 
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +50,13 @@ public class UserDAO {
 	
 	private static final String ADD_FOLLOWER = "insert into user_followers values(?,?,?);";
 	private static final String DELETE_FOLLOWER = "delete from user_followers where following_id=? and follower_id=?;";
-
+	private static final String GET_ALL_FOLLOWINGS="SELECT user_id,user_name from users u"+
+	" join user_followers uf on (u.user_id=uf.following_id) where uf.follower_id=?";
+	private static final String GET_ALL_FOLLOWERS="SELECT user_id,user_name from users u"
+			+ " join user_followers uf on (u.user_id=uf.follower_id)"
+			+ "where uf.following_id=?";
+	private static final String CHECK_FOLLOWER="select following_id from user_followers "
+			+ "where following_id=? AND follower_id=?;";
 	
 	
 	public int registerUser(IUser user) throws UserException, ClassNotFoundException, SQLException {
@@ -163,7 +171,7 @@ public class UserDAO {
 			ps.setString(3, oldPassword);
 
 		} catch (SQLException e) {
-			throw new UserException("Failed to show profile photo!");
+			throw new UserException("Failed to change password!");
 		}
 
 	}
@@ -306,14 +314,13 @@ public class UserDAO {
 	
 	public void followUser(int currentUserId,int followingUserId) throws UserException, ClassNotFoundException, SQLException  {
 		 Connection connection = new DBConnection().getConnection();
-
+		
 		try {
 			Timestamp time =Timestamp.valueOf(LocalDateTime.now());
 			PreparedStatement ps = connection.prepareStatement(ADD_FOLLOWER);
 			ps.setInt(1, followingUserId);
 			ps.setInt(2, currentUserId);
 			ps.setTimestamp(3, time);
-			
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
@@ -359,6 +366,77 @@ public class UserDAO {
 			throw new UserException("Cannot change profile info for this user");
 		}
 		
+	}
+	
+	public List<IUser> getFollowingsList(int currentUserId) throws UserException, ClassNotFoundException, SQLException {
+		Connection connection = new DBConnection().getConnection();
+
+		List<IUser> allFollowings = new LinkedList<IUser>();
+
+		try {
+			PreparedStatement ps = connection.prepareStatement(GET_ALL_FOLLOWINGS);
+			ps.setInt(1, currentUserId);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+
+				int userId = rs.getInt("user_id");
+				String name = rs.getString("user_name");
+				allFollowings.add(new User(userId, name));
+			}
+			return allFollowings;
+
+		} catch (SQLException e) {
+			throw new UserException("No followings available");
+		}
+	}
+	
+	public List<IUser> getFollowersList(int currentUserId) throws UserException, ClassNotFoundException, SQLException {
+		Connection connection = new DBConnection().getConnection();
+
+		List<IUser> allFollowers = new LinkedList<IUser>();
+
+		try {
+			PreparedStatement ps = connection.prepareStatement(GET_ALL_FOLLOWERS);
+			ps.setInt(1, currentUserId);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				int userId = rs.getInt("user_id");
+				String name = rs.getString("user_name");
+				allFollowers.add(new User(userId, name));
+			}
+			return allFollowers;
+
+		} catch (SQLException e) {
+			throw new UserException("No followers available");
+		}
+	}
+	
+
+	public String checkForFollower(int currentUserId,int followingUserId) throws UserException, ClassNotFoundException, SQLException  {
+		 Connection connection = new DBConnection().getConnection();
+		String check = null;
+		try {
+			
+			PreparedStatement ps = connection.prepareStatement(CHECK_FOLLOWER);
+			ps.setInt(1, followingUserId);
+			ps.setInt(2, currentUserId);
+			
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()) {
+				check="Following";
+			}
+			else {
+				check="Follow";
+			}
+
+		} catch (SQLException e) {
+			throw new UserException("Following failed!");
+		}
+		return check;
+
+	
 	}
 
 

@@ -44,7 +44,7 @@ public class NewsfeedController {
 			allNewsfeeds.addAll(newsfeedDAO.getMyFollowersNames(id));
 
 		} catch (NewsfeedException | ClassNotFoundException | SQLException e) {
-			// todo
+			// TODO
 		}
 
 		try {

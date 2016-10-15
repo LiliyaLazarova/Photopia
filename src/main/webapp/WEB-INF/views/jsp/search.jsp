@@ -37,29 +37,72 @@
 	<![endif]-->
 
 <script type="text/javascript">
-	function change(index) {
-		var elem = document.getElementById("myButton-"+index);
-		if (elem.value == "Follow") {
-			elem.value = "Following";
-			follow(index);
-		} else
-			elem.value = "Follow";
-			unfollow(index);
+	function reloadPeople() {
+		var text = $("#text").val();
+
+		$.get("http://localhost:8080/Photopia/searchUsers?prefix=" + text,
+				function(data) {
+					$("#users").empty();
+
+					for (index in data) {
+						var object = data[index];
+
+						var container = document.createElement("div");
+						container.id = object.id;
+
+						var name = document.createElement("h1");
+						name.innerHTML = object.username;
+						container.appendChild(name);
+
+						var photo = document.createElement("img");
+						photo.src = "img/" + object.profilePhotoUrl;
+						photo.width = 100;
+						photo.height = 100;
+						container.appendChild(photo);
+						var input = document.createElement("input");
+						input.type="hidden";
+						input.id="userId-"+index;
+						input.value=object.userId;
+						container.appendChild(input);
+						
+						var button=document.createElement("button");
+						button.id="button-"+index;
+						button.type="button";
+						button.style.width="70px";
+						button.style.height="30px";
+						checkIfFollow(object.userId,button);
+						button.onclick=function(){startFollow(index);};
+						container.appendChild(button);
+						var br = document.createElement("br");
+						container.appendChild(br);
+						var br1 = document.createElement("br");
+						container.appendChild(br1);
+
+						$("#users").append(container);
+					}
+				});
 	}
 </script>
 <script type="text/javascript">
-function unfollow(index) {
-	var followingId=$("#userId-"+index).val();
-	$.post("http://localhost:8080/Photopia/unfollow?followingId="+followingId);
-}</script>
-
-<script type="text/javascript">
-function follow(index) {
-	var followingId=$("#userId-"+index).val();
-	$.post("http://localhost:8080/Photopia/follow?followingId="+followingId);
+function checkIfFollow(followerId,button) {
+	$.get("http://localhost:8080/Photopia/checkUserFollower?followerId="+followerId,
+			function(data){
+		var buttonValue=data;
+		button.innerHTML =buttonValue;
+		
+		
+	});
+	
 }
 </script>
-
+<script type="text/javascript">
+function startFollow(index) {
+	var followingId=$("#userId-"+index).val();
+	$.post("http://localhost:8080/Photopia/follow?followingId="+followingId);
+	var buttonValue = document.getElementById("button-"+index);
+	buttonValue.innerHTML='Following';
+}
+</script>
 </head>
 <body>
 
@@ -75,11 +118,10 @@ function follow(index) {
 			</div>
 			<div class="fh5co-top-menu menu-1 text-center">
 				<ul>
-					<li class="active"><a>Suggestion</a></li>
+					<li><a href="suggestions">Suggestion</a></li>
 					<li><a href="profile">Profile</a></li>
-					<li><a>Newsfeed</a>
-						
-					<li><a href="search">Search</a></li>
+					<li><a>Newsfeed</a></li>
+					<li><a class="active" href="search">Search</a></li>
 
 				</ul>
 			</div>
@@ -92,48 +134,17 @@ function follow(index) {
 		</div>
 		</nav>
 
-		<div id="fh5co-author">
+		<div id="fh5co-author" class="col-md-6 col-md-offset-3 col-md-push-2 text-left fh5co-heading">
+			<font size="6" class="title animate-box" >Search for new
+				friends :</font> 
+				<br/>
+				<input type="input" onkeyup="reloadPeople()" id="text"
+				placeholder="Search users..." />
+				<br/>
+				<br/>
+
 			<div class="container">
-				<div class="row top-line animate-box">
-
-
-
-					<div class="col-md-12">
-
-						<h3 class="title animate-box">You might want to follow</h3>
-					</div>
-					<c:forEach var="user" items="${allUserFollowers}" varStatus="loop">
-						<div class="col-md-6 col-sm-6">
-							<div class="feature-center animate-box"
-								data-animate-effect="fadeIn">
-
-
-								<c:if test="${not empty user.profilePhotoUrl}">
-									<a href="showUnfollowedUserProfile?userId=${user.userId}"><img
-										src="img/${user.profilePhotoUrl}" width="150" height="150"></a>
-
-								</c:if>
-
-								<c:if test="${empty user.profilePhotoUrl}">
-									<a href="showUnfollowedUserProfile?userId=${user.userId}"><img
-										src="img/emptyPhoto.jpg" width="150" height="150"></a>
-								</c:if>
-								<h3>
-									<c:out value="${user.username}" />
-								</h3>
-								<p></p>
-								<form>
-									<input type="button" id="myButton-${loop.index}"
-										onclick="change(${loop.index})" value="Follow" /> <input
-										type="hidden" id="userId-${loop.index}" value="${user.userId}" />
-
-								</form>
-							</div>
-						</div>
-
-					</c:forEach>
-
-
+				<div class="row top-line animate-box" id="users">
 
 					<div class="gototop js-top">
 						<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>

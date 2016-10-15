@@ -28,6 +28,15 @@ public class User implements IUser {
 	private String gender;
 	private String biography;
 	private String profilePhotoUrl;
+	private boolean isFollowed;
+
+	public boolean isFollowed() {
+		return isFollowed;
+	}
+
+	public void setFollowed(boolean isFollowed) {
+		this.isFollowed = isFollowed;
+	}
 
 	private List<Post> userPosts=new LinkedList<Post>();
 
@@ -39,16 +48,9 @@ public class User implements IUser {
 	
 	public User(int userId, String username, String password, String email, String name, String website, String gender,
 			String biography, String profilePhotoUrl) throws UserException {
-		super();
-		this.userId = userId;
-		setUsername(username);
+		this(userId, username, name, website, gender, biography, profilePhotoUrl);
 		setPassword(password);
 		setEmail(email);
-		this.name = name;
-		this.website = website;
-		this.gender = gender;
-		this.biography = biography;
-		this.profilePhotoUrl = profilePhotoUrl;
 	}
 
 	public User(String password, String email) throws UserException {
@@ -60,28 +62,45 @@ public class User implements IUser {
 	public User() {
 		
 	}
-	public User(int userId, String name, String url) throws UserException {
-		setUserId(userId);
-		setUsername(name);
+	public User(int userId, String username, String url) throws UserException {
+		this(userId, username);
 		setProfilePhotoUrl(url);
+	}
+
+	public User(int userId, String username) throws UserException {
+		setUserId(userId);
+		setUsername(username);
+	}
+
+	public User(int userId, String username, String name, String website, String gender, String biography,
+			String profilePhotoUrl) throws UserException {
+		setUsername(username);
+		setUserId(userId);
+		this.name = name;
+		this.website = website;
+		this.gender = gender;
+		this.biography = biography;
+		this.profilePhotoUrl = profilePhotoUrl;
+		
 	}
 
 	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserId(int userId) throws UserException {
+		if (userId>0) {
+			this.userId = userId;
+		}else {
+			throw new UserException("Invalid userId");
+		}
+		
 	}
 
 	public String getUsername() {
 		return username;
 	}
 	
-//	public void setUsername(String username){
-//		this.username=username;
-//	}
-
 	public void setUsername(String username) throws UserException {
 		if (isValidString(username)) {
 			this.username = username;
@@ -94,11 +113,7 @@ public class User implements IUser {
 	public String getPassword() {
 		return password;
 	}
-	
-	
-//public void setPassword(String password){
-//	this.password=password;
-//}
+
 	public void setPassword(String password) throws UserException {
 		if (isValidString(password)&&password.length()>PASSWORD_MIN_LENGTH) {
 			this.password = password;
@@ -110,10 +125,6 @@ public class User implements IUser {
 	public String getEmail() {
 		return email;
 	}
-
-	// public void setEmail(String email){
-	// this.email=email;
-	// }
 	
 	public void setEmail(String email) throws UserException {
 		if (isValidEmail(email)) {

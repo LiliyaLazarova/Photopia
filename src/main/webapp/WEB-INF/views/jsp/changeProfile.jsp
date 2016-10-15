@@ -96,12 +96,8 @@
 				<ul>
 					<li><a href="suggestions">Suggestion</a></li>
 					<li class="active"><a href="about.html">Profile</a></li>
-					<li class="has-dropdown"><a href="#">Newsfeed</a>
-						<ul class="dropdown">
-							<li><a href="#">Web Design</a></li>
-
-						</ul></li>
-					<li><a href="contact.html">Search</a></li>
+					<li><a>Newsfeed</a></li>
+					<li><a href="search">Search</a></li>
 
 				</ul>
 			</div>

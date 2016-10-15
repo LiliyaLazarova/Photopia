@@ -77,7 +77,9 @@ function follow(index) {
 				<ul>
 					<li class="active"><a>Suggestion</a></li>
 					<li><a href="profile">Profile</a></li>
-					<li><a>Newsfeed</a>
+
+					<li><a>Newsfeed</a></li>
+
 						
 					<li><a href="search">Search</a></li>
 

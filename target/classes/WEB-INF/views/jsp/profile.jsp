@@ -85,9 +85,22 @@ function getFollowingsList(){
 		var message=document.createElement("h1");
 		message.innerHTML="Followings: ";
 		$("#followingsAndFollowers").append(message);
+<<<<<<< HEAD
 		for (index in data) {
 			var object = data[index];
 			var name = document.createElement("label");
+=======
+<<<<<<< HEAD
+		for (index in data) {
+			var object = data[index];
+			var name = document.createElement("label");
+=======
+
+		for (index in data) {
+			var object = data[index];
+			var name = document.createElement("h1");
+>>>>>>> 6135073d04f6be24cdba2876e5e495b01c8b57a7
+>>>>>>> 5e6f9790534c0b1dc7c4f04d3c1d0c10054d307e
 			name.innerHTML = object.username;
 			$("#followingsAndFollowers").append(name);
 			var input = document.createElement("input");
@@ -96,15 +109,26 @@ function getFollowingsList(){
 			input.value=object.userId;
 			$("#followingsAndFollowers").append(input);
 			var button=document.createElement("button");
+<<<<<<< HEAD
 			button.id="button-"+index;
+=======
+>>>>>>> 5e6f9790534c0b1dc7c4f04d3c1d0c10054d307e
 			button.type="button";
 			button.style.width="70px";
 			button.style.height="30px";
 			button.innerHTML = 'Following';
 			button.onclick=function(){startUnfollow(index);};
 			$("#followingsAndFollowers").append(button);
+<<<<<<< HEAD
 			var line=document.createElement("br");
 			$("#followingsAndFollowers").append(line);
+=======
+<<<<<<< HEAD
+			var line=document.createElement("br");
+			$("#followingsAndFollowers").append(line);
+=======
+>>>>>>> 6135073d04f6be24cdba2876e5e495b01c8b57a7
+>>>>>>> 5e6f9790534c0b1dc7c4f04d3c1d0c10054d307e
 		}
 	});
 	
@@ -115,8 +139,11 @@ function startUnfollow(index) {
 	var followingId=$("#userId-"+index).val();
 	console.log(followingId);
 	$.post("http://localhost:8080/Photopia/unfollow?followingId="+followingId);
+<<<<<<< HEAD
 	var buttonValue = document.getElementById("button-"+index);
 	buttonValue.innerHTML='Follow';
+=======
+>>>>>>> 5e6f9790534c0b1dc7c4f04d3c1d0c10054d307e
 }
 </script>
 <script type="text/javascript">
@@ -129,24 +156,37 @@ function getFollowersList(){
 		$("#followingsAndFollowers").append(message);
 		for (index in data) {
 			var object = data[index];
+<<<<<<< HEAD
 			var div = document.createElement("div");
+=======
+>>>>>>> 5e6f9790534c0b1dc7c4f04d3c1d0c10054d307e
 			var name = document.createElement("h1");	
 			var input = document.createElement("input");
 			input.type="hidden";
 			input.id="userId-"+index;
 			input.value=object.userId;
 			var button=document.createElement("button");
+<<<<<<< HEAD
 			button.id="button-"+index;
+=======
+>>>>>>> 5e6f9790534c0b1dc7c4f04d3c1d0c10054d307e
 			button.type="button";
 			button.style.width="70px";
 			button.style.height="30px";
 			button.onclick=function(){startFollow(index);};
 			name.innerHTML = object.username;
+<<<<<<< HEAD
 			div.appendChild(name);
 			div.appendChild(input);
 			div.appendChild(button);
 			checkIfFollow(object.userId,button);
 			$("#followingsAndFollowers").append(div);
+=======
+			$("#followingsAndFollowers").append(name);
+			$("#followingsAndFollowers").append(input);
+			checkIfFollow(object.userId,button);
+			$("#followingsAndFollowers").append(button);
+>>>>>>> 5e6f9790534c0b1dc7c4f04d3c1d0c10054d307e
 			
 			
 		}
@@ -169,11 +209,21 @@ function checkIfFollow(followerId,button) {
 function startFollow(index) {
 	var followingId=$("#userId-"+index).val();
 	$.post("http://localhost:8080/Photopia/follow?followingId="+followingId);
+<<<<<<< HEAD
 	var buttonValue = document.getElementById("button-"+index);
 	buttonValue.innerHTML='Following';
 }
 </script>
 
+=======
+}
+</script>
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6135073d04f6be24cdba2876e5e495b01c8b57a7
+>>>>>>> 5e6f9790534c0b1dc7c4f04d3c1d0c10054d307e
 
 </head>
 <body>
@@ -238,8 +288,18 @@ function startFollow(index) {
 						<div class="col-md-4 text-center animate-box">
 							<a class="work">
 								<div id="followingsAndFollowers">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
 									
 								</div>
+								<div id="followers">
+>>>>>>> 6135073d04f6be24cdba2876e5e495b01c8b57a7
+>>>>>>> 5e6f9790534c0b1dc7c4f04d3c1d0c10054d307e
+									
+								</div>
+								
 							</a>
 						</div>
 					</div>

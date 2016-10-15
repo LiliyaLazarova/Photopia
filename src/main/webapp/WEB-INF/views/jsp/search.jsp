@@ -59,6 +59,7 @@
 						photo.width = 100;
 						photo.height = 100;
 						container.appendChild(photo);
+
 						var input = document.createElement("input");
 						input.type="hidden";
 						input.id="userId-"+index;
@@ -73,6 +74,7 @@
 						checkIfFollow(object.userId,button);
 						button.onclick=function(){startFollow(index);};
 						container.appendChild(button);
+
 						var br = document.createElement("br");
 						container.appendChild(br);
 						var br1 = document.createElement("br");
@@ -83,6 +85,7 @@
 				});
 	}
 </script>
+
 <script type="text/javascript">
 function checkIfFollow(followerId,button) {
 	$.get("http://localhost:8080/Photopia/checkUserFollower?followerId="+followerId,
@@ -103,6 +106,7 @@ function startFollow(index) {
 	buttonValue.innerHTML='Following';
 }
 </script>
+
 </head>
 <body>
 
@@ -119,6 +123,7 @@ function startFollow(index) {
 			<div class="fh5co-top-menu menu-1 text-center">
 				<ul>
 					<li><a href="suggestions">Suggestion</a></li>
+
 					<li><a href="profile">Profile</a></li>
 					<li><a>Newsfeed</a></li>
 					<li><a class="active" href="search">Search</a></li>

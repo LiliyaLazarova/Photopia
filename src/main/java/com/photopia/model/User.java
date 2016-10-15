@@ -72,6 +72,7 @@ public class User implements IUser {
 		setUsername(username);
 	}
 
+
 	public User(int userId, String username, String name, String website, String gender, String biography,
 			String profilePhotoUrl) throws UserException {
 		setUsername(username);
@@ -83,6 +84,7 @@ public class User implements IUser {
 		this.profilePhotoUrl = profilePhotoUrl;
 		
 	}
+
 
 	public int getUserId() {
 		return userId;

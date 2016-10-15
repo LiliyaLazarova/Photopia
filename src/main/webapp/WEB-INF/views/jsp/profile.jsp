@@ -85,9 +85,16 @@ function getFollowingsList(){
 		var message=document.createElement("h1");
 		message.innerHTML="Followings: ";
 		$("#followingsAndFollowers").append(message);
+<<<<<<< HEAD
 		for (index in data) {
 			var object = data[index];
 			var name = document.createElement("label");
+=======
+
+		for (index in data) {
+			var object = data[index];
+			var name = document.createElement("h1");
+>>>>>>> 6135073d04f6be24cdba2876e5e495b01c8b57a7
 			name.innerHTML = object.username;
 			$("#followingsAndFollowers").append(name);
 			var input = document.createElement("input");
@@ -102,8 +109,11 @@ function getFollowingsList(){
 			button.innerHTML = 'Following';
 			button.onclick=function(){startUnfollow(index);};
 			$("#followingsAndFollowers").append(button);
+<<<<<<< HEAD
 			var line=document.createElement("br");
 			$("#followingsAndFollowers").append(line);
+=======
+>>>>>>> 6135073d04f6be24cdba2876e5e495b01c8b57a7
 		}
 	});
 	
@@ -166,6 +176,10 @@ function startFollow(index) {
 }
 </script>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6135073d04f6be24cdba2876e5e495b01c8b57a7
 
 </head>
 <body>
@@ -230,8 +244,15 @@ function startFollow(index) {
 						<div class="col-md-4 text-center animate-box">
 							<a class="work">
 								<div id="followingsAndFollowers">
+<<<<<<< HEAD
+=======
 									
 								</div>
+								<div id="followers">
+>>>>>>> 6135073d04f6be24cdba2876e5e495b01c8b57a7
+									
+								</div>
+								
 							</a>
 						</div>
 					</div>

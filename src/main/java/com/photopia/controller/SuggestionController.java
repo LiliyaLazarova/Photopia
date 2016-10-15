@@ -55,7 +55,7 @@ public class SuggestionController {
 
 	@RequestMapping(value = "/follow", method = RequestMethod.POST)
 	public void follow(@RequestParam("followingId")  int followingId, Model model, HttpServletRequest request) {
-
+		
 		Object userId = request.getSession().getAttribute("userID");
 
 		int id = (int) userId;
@@ -71,7 +71,8 @@ public class SuggestionController {
 	
 	@RequestMapping(value = "/unfollow", method = RequestMethod.POST)
 	public void unfollow(@RequestParam("followingId")  int followingId, Model model, HttpServletRequest request) {
-
+		System.out.println("v kontrolera sum");
+		System.out.println(followingId);
 		Object userId = request.getSession().getAttribute("userID");
 
 		int id = (int) userId;

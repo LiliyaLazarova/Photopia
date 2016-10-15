@@ -78,6 +78,7 @@ public class ProfileController {
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
 	public String singleFileUpload(@RequestParam("file") MultipartFile multipartFile, ModelMap model,
 			@ModelAttribute Photo photo, HttpServletRequest request) throws IOException {
+
 		Object userId = request.getSession().getAttribute("userID");
 		if (userId == null) {
 			return "redirect:/index";
@@ -99,6 +100,8 @@ public class ProfileController {
 
 		return "redirect:/profile";
 	}
+
+
 
 	@RequestMapping(value = "/followingsList", method = RequestMethod.GET)
 	public void showFollings(HttpServletRequest request, Model model, HttpServletResponse response) {

@@ -59,6 +59,7 @@ public class UserDAO {
 	private static final String CHECK_FOLLOWER="select following_id from user_followers "
 			+ "where following_id=? AND follower_id=?;";
 	private static final String SEARCH_USERNAME="select user_id,user_name,profile_photo from users where user_name like ?;";
+
 	
 	
 	public int registerUser(IUser user) throws UserException, ClassNotFoundException, SQLException {
@@ -433,6 +434,7 @@ public class UserDAO {
 				check="Follow";
 			}
 
+
 		} catch (SQLException e) {
 			throw new UserException("Following failed!");
 		}
@@ -468,8 +470,4 @@ public class UserDAO {
 			throw new UserException("Get user Info failed!");
 		}
 	}
-	
-	
-
-
 }

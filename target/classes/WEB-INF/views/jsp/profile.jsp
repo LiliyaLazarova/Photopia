@@ -186,6 +186,10 @@ function getFollowersList(){
 			div.appendChild(button);
 			checkIfFollow(object.userId,button);
 			$("#followingsAndFollowers").append(div);
+			$("#followingsAndFollowers").append(name);
+			$("#followingsAndFollowers").append(input);
+			checkIfFollow(object.userId,button);
+			$("#followingsAndFollowers").append(button);
 			
 			
 		}
@@ -212,7 +216,6 @@ function startFollow(index) {
 	buttonValue.innerHTML='Following';
 }
 </script>
-
 
 </head>
 <body>
@@ -277,8 +280,11 @@ function startFollow(index) {
 						<div class="col-md-4 text-center animate-box">
 							<a class="work">
 								<div id="followingsAndFollowers">
+								</div>
+								<div id="followers">
 									
 								</div>
+								
 							</a>
 						</div>
 					</div>
@@ -344,7 +350,6 @@ function startFollow(index) {
 											</table>
 										</formmm:form>
 										<div id="message"></div>
-
 
 									</div>
 								</div>

@@ -40,11 +40,11 @@
 	function change(index) {
 		var elem = document.getElementById("myButton-"+index);
 		if (elem.value == "Follow") {
-			follow(index);
 			elem.value = "Following";
+			follow(index);
 		} else
-			unfollow(index);
 			elem.value = "Follow";
+			unfollow(index);
 	}
 </script>
 <script type="text/javascript">
@@ -77,11 +77,8 @@ function follow(index) {
 				<ul>
 					<li class="active"><a>Suggestion</a></li>
 					<li><a href="profile">Profile</a></li>
-					<li class="has-dropdown"><a href="#">Newsfeed</a>
-						<ul class="dropdown">
-							<li><a href="#"> Newsfeed </a></li>
-
-						</ul></li>
+					<li><a>Newsfeed</a>
+						
 					<li><a href="search">Search</a></li>
 
 				</ul>
@@ -112,21 +109,23 @@ function follow(index) {
 
 
 								<c:if test="${not empty user.profilePhotoUrl}">
-									<a href="showUnfollowedUserProfile?userId=${user.userId}"><img  src="img/${user.profilePhotoUrl}" width="150" height="150"></a>
-								
+									<a href="showUnfollowedUserProfile?userId=${user.userId}"><img
+										src="img/${user.profilePhotoUrl}" width="150" height="150"></a>
+
 								</c:if>
 
 								<c:if test="${empty user.profilePhotoUrl}">
-									<img src="img/emptyPhoto.jpg" width="150" height="150">
+									<a href="showUnfollowedUserProfile?userId=${user.userId}"><img
+										src="img/emptyPhoto.jpg" width="150" height="150"></a>
 								</c:if>
 								<h3>
 									<c:out value="${user.username}" />
 								</h3>
 								<p></p>
-								<form >
-									<input type="button" id="myButton-${loop.index}" onclick="change(${loop.index})"
-										value="Follow" />
-									<input type="hidden" id="userId-${loop.index}" value="${user.userId}" />
+								<form>
+									<input type="button" id="myButton-${loop.index}"
+										onclick="change(${loop.index})" value="Follow" /> <input
+										type="hidden" id="userId-${loop.index}" value="${user.userId}" />
 
 								</form>
 							</div>
@@ -134,7 +133,7 @@ function follow(index) {
 
 					</c:forEach>
 
-	
+
 
 					<div class="gototop js-top">
 						<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>

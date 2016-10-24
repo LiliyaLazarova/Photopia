@@ -28,6 +28,7 @@ import com.photopia.model.Post;
 import com.photopia.model.PostDAO;
 import com.photopia.model.User;
 import com.photopia.model.UserDAO;
+import com.photopia.model.exceptions.PostException;
 import com.photopia.model.exceptions.UserException;
 import com.photopia.model.interfaces.IUser;
 
@@ -43,15 +44,12 @@ public class ProfileController {
 
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public String showProfile(HttpServletRequest request, Model model) {
-		// if(request.getSession() == null) {
-		// return "index";
-		// }
+
 		Object userId = request.getSession().getAttribute("userID");
 		if (userId == null) {
 			return "redirect:/index";
 		}
 		int id = (int) userId;
-
 		try {
 			int numberOfPosts = userDAO.getNumberOfPosts(id);
 			int numberOfFollowers = userDAO.getNumberOfFollowers(id);
@@ -63,15 +61,15 @@ public class ProfileController {
 			model.addAttribute("numberOfFollowers", numberOfFollowers);
 			model.addAttribute("numberOfFollowings", numberOfFollowings);
 
-			List<Post> allPosts = postDAO.getAllPostsUrls(id);
+			List<Post> allPosts;
+
+			allPosts = postDAO.getAllPostsUrls(id);
 			model.addAttribute("allPosts", allPosts);
 			model.addAttribute("post", new Photo());
-
-		} catch (UserException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (ClassNotFoundException | SQLException | PostException | UserException e) {
 			e.printStackTrace();
+			return "error";
 		}
-
 		return "profile";
 	}
 
@@ -92,16 +90,15 @@ public class ProfileController {
 
 		String url = id + "_" + multipartFile.getOriginalFilename();
 		photo.setUrl(url);
+
 		try {
 			postDAO.uploadPost(id, photo);
-		} catch (Exception e) {
-			return "redirect:/profile";
+		} catch (ClassNotFoundException | SQLException | PostException e) {
+			e.printStackTrace();
+			return "error";
 		}
-
 		return "redirect:/profile";
 	}
-
-
 
 	@RequestMapping(value = "/followingsList", method = RequestMethod.GET)
 	public void showFollings(HttpServletRequest request, Model model, HttpServletResponse response) {
@@ -109,77 +106,79 @@ public class ProfileController {
 		response.setContentType("text/json");
 		response.setCharacterEncoding("UTF-8");
 		Object userId = request.getSession().getAttribute("userID");
-		if (userId == null) {
-			try {
+		try {
+			if (userId == null) {
 				response.sendRedirect("./index");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			}
+			int id = (int) userId;
+
+			List<IUser> allFollowingsList;
+
+			allFollowingsList = userDAO.getFollowingsList(id);
+			response.getWriter().println(new Gson().toJson(allFollowingsList));
+		} catch (ClassNotFoundException | UserException | SQLException | IOException e) {
+			e.printStackTrace();
+			try {
+				response.sendRedirect("./error");
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
-		int id = (int) userId;
-
-		try {
-			List<IUser> allFollowingsList = userDAO.getFollowingsList(id);
-			response.getWriter().println(new Gson().toJson(allFollowingsList));
-			
-		} catch (UserException | ClassNotFoundException | SQLException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
-	
+
 	@RequestMapping(value = "/followersList", method = RequestMethod.GET)
 	public void showFollowers(HttpServletRequest request, Model model, HttpServletResponse response) {
 
 		response.setContentType("text/json");
 		response.setCharacterEncoding("UTF-8");
 		Object userId = request.getSession().getAttribute("userID");
-		if (userId == null) {
-			try {
+		try {
+			if (userId == null) {
 				response.sendRedirect("./index");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				return;
+			}
+			int id = (int) userId;
+
+			List<IUser> allFollowersList;
+
+			allFollowersList = userDAO.getFollowersList(id);
+			response.getWriter().println(new Gson().toJson(allFollowersList));
+		} catch (ClassNotFoundException | UserException | SQLException | IOException e) {
+			e.printStackTrace();
+			try {
+				response.sendRedirect("./error");
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
-		int id = (int) userId;
-
-		try {
-			List<IUser> allFollowersList = userDAO.getFollowersList(id);
-			response.getWriter().println(new Gson().toJson(allFollowersList));
-			
-		} catch (UserException | ClassNotFoundException | SQLException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
-	
+
 	@RequestMapping(value = "/checkUserFollower", method = RequestMethod.GET)
-	public void checkFollower(@RequestParam("followerId") int followerId,HttpServletRequest request, Model model, HttpServletResponse response) {
+	public void checkFollower(@RequestParam("followerId") int followerId, HttpServletRequest request, Model model,
+			HttpServletResponse response) {
 
 		response.setContentType("text/json");
 		response.setCharacterEncoding("UTF-8");
 		Object userId = request.getSession().getAttribute("userID");
-		if (userId == null) {
-			try {
+		try {
+			if (userId == null) {
 				response.sendRedirect("./index");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				return;
+			}
+			int id = (int) userId;
+
+			String checked;
+			checked = userDAO.checkForFollower(id, followerId);
+			response.getWriter().println(new Gson().toJson(checked));
+		} catch (ClassNotFoundException | UserException | SQLException | IOException e) {
+			e.printStackTrace();
+			try {
+				response.sendRedirect("./error");
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
-		int id = (int) userId;
 
-		try {
-			String checked =userDAO.checkForFollower(id,followerId);
-			System.out.println(checked);
-			response.getWriter().println(new Gson().toJson(checked));
-			
-		} catch (UserException | ClassNotFoundException | SQLException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }

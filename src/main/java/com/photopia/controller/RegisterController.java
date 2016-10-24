@@ -19,7 +19,6 @@ import com.photopia.model.User;
 import com.photopia.model.UserDAO;
 import com.photopia.model.exceptions.UserException;
 
-
 @Controller
 public class RegisterController {
 
@@ -33,24 +32,21 @@ public class RegisterController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(@ModelAttribute @Valid User user, BindingResult bindingResult,Model model) {
+	public String register(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model) {
 
-		try {
-			
-			if(bindingResult.hasErrors()){
-				model.addAttribute("errorMessage", "Registration failed.");
-				return "register";
-			}else {
-				userDAO.registerUser(user);
-			}
-		
-		} catch (UserException | ClassNotFoundException | SQLException e) {
+		if (bindingResult.hasErrors()) {
 			model.addAttribute("errorMessage", "Registration failed.");
 			return "register";
+		} else {
+			try {
+				userDAO.registerUser(user);
+
+			} catch (ClassNotFoundException | UserException | SQLException e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "Registration failed.");
+				return "register";
+			}
 		}
-
 		return "redirect:/index";
-
 	}
-
 }

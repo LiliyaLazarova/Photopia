@@ -11,9 +11,8 @@ import com.photopia.model.User;
 
 @Controller
 public class LogoutController {
-	
-	
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
 		request.getSession().invalidate();
 		return "redirect:/index";

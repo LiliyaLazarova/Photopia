@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,14 +27,12 @@ import com.photopia.model.exceptions.PostException;
 import com.photopia.model.exceptions.UserException;
 import com.photopia.model.interfaces.IUser;
 
-
 @Controller
 public class SuggestionController {
 
 	@Autowired
 	UserDAO userDAO;
-	
-	
+
 	@RequestMapping(value = "/suggestions", method = RequestMethod.GET)
 	public String showSuggestionPage(Model model, HttpServletRequest request) {
 
@@ -43,48 +42,59 @@ public class SuggestionController {
 		}
 		int id = (int) userId;
 
+		List<IUser> allUserFollowers;
 		try {
-			List<IUser> allUserFollowers = userDAO.getAllUserFollowers(id);
+			allUserFollowers = userDAO.getAllUserFollowers(id);
 			model.addAttribute("allUserFollowers", allUserFollowers);
 			model.addAttribute("user", new User());
-		} catch (UserException | ClassNotFoundException | SQLException e) {
-			return "redirect:/suggestions";
+		} catch (ClassNotFoundException | UserException | SQLException e) {
+			e.printStackTrace();
+			return "error";
 		}
 		return "suggestions";
 	}
 
 	@RequestMapping(value = "/follow", method = RequestMethod.POST)
-	public void follow(@RequestParam("followingId")  int followingId, Model model, HttpServletRequest request) {
-		
+	public void follow(@RequestParam("followingId") int followingId, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
 		Object userId = request.getSession().getAttribute("userID");
-
-		int id = (int) userId;
-
 		try {
+			if (userId == null) {
+				response.sendRedirect("./index");
+				return;
+			}
+			int id = (int) userId;
 			userDAO.followUser(id, followingId);
-		} catch (UserException | ClassNotFoundException | SQLException e) {
-//			return "redirect:/suggestions";
+		} catch (ClassNotFoundException | UserException | SQLException | IOException e) {
+			e.printStackTrace();
+			try {
+				response.sendRedirect("./error");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
-
-
 	}
-	
+
 	@RequestMapping(value = "/unfollow", method = RequestMethod.POST)
-	public void unfollow(@RequestParam("followingId")  int followingId, Model model, HttpServletRequest request) {
-		System.out.println("v kontrolera sum");
-		System.out.println(followingId);
+	public void unfollow(@RequestParam("followingId") int followingId, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
 		Object userId = request.getSession().getAttribute("userID");
-
-		int id = (int) userId;
-
 		try {
+			if (userId == null) {
+				response.sendRedirect("./index");
+				return;
+			}
+			int id = (int) userId;
 			userDAO.unfollowUser(id, followingId);
-		} catch (UserException | ClassNotFoundException | SQLException e) {
-//			return "redirect:/suggestions";
+		} catch (ClassNotFoundException | UserException | SQLException | IOException e) {
+			e.printStackTrace();
+			try {
+				response.sendRedirect("./error");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
-
-
 	}
-
-
 }

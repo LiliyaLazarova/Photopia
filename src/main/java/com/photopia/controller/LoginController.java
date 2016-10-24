@@ -1,6 +1,5 @@
 package com.photopia.controller;
 
-
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,43 +22,35 @@ import com.photopia.model.User;
 import com.photopia.model.UserDAO;
 import com.photopia.model.exceptions.UserException;
 
-
 @Controller
 public class LoginController {
-	
+
 	private static final int SESSION_EXPIRATION_TIME_IN_SECONDS = 600;
 	@Autowired
 	UserDAO userDAO;
 
-	@RequestMapping(value="/index", method = RequestMethod.GET)
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String showLoginPage(Model model) {
-		model.addAttribute("user",new User());
+		model.addAttribute("user", new User());
 		return "index";
 	}
-	
-	@RequestMapping(value="/index", method = RequestMethod.POST)
-	
-	public String login(@ModelAttribute @Valid User user,BindingResult bindingResult,Model model,HttpServletRequest request) {
+
+	@RequestMapping(value = "/index", method = RequestMethod.POST)
+	public String login(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model,
+			HttpServletRequest request) {
 
 		int id;
+
 		try {
-//			if(bindingResult.hasErrors()){
-//				model.addAttribute("errorMessage", "Login failed.");
-//				return "index";
-//			}
 			id = userDAO.loginUser(user);
 			HttpSession session = request.getSession();
 			session.setAttribute("userID", id);
 			session.setMaxInactiveInterval(SESSION_EXPIRATION_TIME_IN_SECONDS);
-			
-		} catch (UserException | ClassNotFoundException | SQLException e) {
-			model.addAttribute("errorMessage","Invalid email or password");
+		} catch (ClassNotFoundException | UserException | SQLException e) {
+			e.printStackTrace();
+			model.addAttribute("errorMessage", "Invalid email or password");
 			return "index";
 		}
-		
-	
 		return "redirect:/wall";
-		
 	}
-
 }

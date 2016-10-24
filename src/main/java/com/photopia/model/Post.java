@@ -34,17 +34,8 @@ public abstract class Post implements IPost {
 		}
 	}
 	
-	public Post(int postId, String url) {
-		//TODO
-		this.postId = postId;
-		this.url = url;
-	}
-	
-
-	
-	public Post(int postId, String ownerName, String url) throws PostException {
-		if (isValidString(url) && isValidString(ownerName)) {
-			this.ownerName = ownerName;
+	public Post(int postId, String url) throws PostException {
+		if (isValidString(url)) {
 			this.url = url;
 		} else {
 			throw new PostException("No valid url!");
@@ -56,15 +47,24 @@ public abstract class Post implements IPost {
 		}
 	}
 	
-	
+	public Post(int postId, String ownerName, String url) throws PostException {
+		this(postId, url);
+		if (isValidString(ownerName)) {
+			this.ownerName = ownerName;
+		} else {
+			throw new PostException("No valid owner name!");
+		}
+	}
 
-	public Post(String ownerName, String description, String location, String url) {
-		super();
-		this.ownerName = ownerName;
+	public Post(String ownerName, String description, String location, String url) throws PostException {
+		if (isValidString(url) && isValidString(ownerName)) {
+			this.url = url;
+			this.ownerName = ownerName;
+		} else {
+			throw new PostException("No valid url!");
+		}
 		this.description = description;
 		this.location = location;
-		this.url = url;
-		//validation
 	}
 
 	public int getPostId() {

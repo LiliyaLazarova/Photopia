@@ -32,27 +32,25 @@ public class NewsfeedController {
 		response.setCharacterEncoding("UTF-8");
 		Set<NewsFeed> allNewsfeeds = new TreeSet<NewsFeed>();
 		Object userId = request.getSession().getAttribute("userID");
-		if (userId == null) {
-			// return "redirect:/index";
-		}
-		int id = (int) userId;
-
 		try {
+			if (userId == null) {
+				response.sendRedirect("./index");
+				return;
+			}
+			int id = (int) userId;
 
 			allNewsfeeds.addAll(newsfeedDAO.getMyCommentersNames(id));
 			allNewsfeeds.addAll(newsfeedDAO.getMyLikersNames(id));
 			allNewsfeeds.addAll(newsfeedDAO.getMyFollowersNames(id));
 
-		} catch (NewsfeedException | ClassNotFoundException | SQLException e) {
-			// TODO
-		}
-
-		try {
 			response.getWriter().println(new Gson().toJson(allNewsfeeds));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException | ClassNotFoundException | NewsfeedException | SQLException e) {
 			e.printStackTrace();
+			try {
+				response.sendRedirect("./error");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
-
 }

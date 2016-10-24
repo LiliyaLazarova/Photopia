@@ -46,7 +46,7 @@ public class Like {
 		}
 	}
 	public Timestamp getTimestamp() {
-		return timestamp.valueOf(LocalDateTime.now());
+		return Timestamp.valueOf(LocalDateTime.now());
 	}
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;

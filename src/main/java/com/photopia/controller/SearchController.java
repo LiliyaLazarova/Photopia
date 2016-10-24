@@ -28,45 +28,38 @@ public class SearchController {
 	UserDAO userDAO;
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String showSearchPage(Model model, HttpServletRequest request,HttpServletResponse response) {
-		
+	public String showSearchPage(Model model, HttpServletRequest request, HttpServletResponse response) {
+
 		Object userId = request.getSession().getAttribute("userID");
 		if (userId == null) {
 			return "redirect:/index";
 		}
-		
 		return "search";
-		
-		
 	}
-	
+
 	@RequestMapping(value = "/searchUsers", method = RequestMethod.GET)
-	public void showSearchResult(@RequestParam("prefix")  String prefix,Model model, HttpServletRequest request,HttpServletResponse response) {
+	public void showSearchResult(@RequestParam("prefix") String prefix, Model model, HttpServletRequest request,
+			HttpServletResponse response) {
+
 		response.setContentType("text/json");
 		response.setCharacterEncoding("UTF-8");
-		
-//		Object userId = request.getSession().getAttribute("userID");
-//		if (userId == null) {
-//			return "redirect:/index";
-//		}
-		//int id = (int) userId;
-		System.out.println("predi userDao v kontrolera");
-		
+		Object userId = request.getSession().getAttribute("userID");
 		try {
-			List<IUser> usersFound = userDAO.searchForUser(prefix);
-			for (IUser iUser : usersFound) {
-				System.out.println(iUser);
+			if (userId == null) {
+				response.sendRedirect("./index");
 			}
+			List<IUser> usersFound;
+			usersFound = userDAO.searchForUser(prefix);
 			response.getWriter().print(new Gson().toJson(usersFound));
-			
-			
-			
-		} catch (UserException | ClassNotFoundException | SQLException | IOException e) {
-			//TODO
+		} catch (ClassNotFoundException | UserException | SQLException | IOException e) {
 			e.printStackTrace();
+			try {
+				response.sendRedirect("./error");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
+
 	}
-	
-	
 
 }

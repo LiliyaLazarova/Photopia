@@ -8,6 +8,14 @@ AbstractAnnotationConfigDispatcherServletInitializer;
  
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
  
+	private static final String LOCATION = "C:\\Lility\\User_Photos\\"; // Temporary location where files will be stored
+	 
+    private static final long MAX_FILE_SIZE = 5242880; // 5MB : Max file size.
+                                                        // Beyond that size spring will throw exception.
+    private static final long MAX_REQUEST_SIZE = 20971520; // 20MB : Total request size containing Multi part.
+     
+    private static final int FILE_SIZE_THRESHOLD = 0; // Size threshold after which files will be written to disk
+    
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] { SpringWebConfig.class };
@@ -34,11 +42,5 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	}
 
  
-    private static final String LOCATION = "C:\\Lility\\User_Photos\\"; // Temporary location where files will be stored
- 
-    private static final long MAX_FILE_SIZE = 5242880; // 5MB : Max file size.
-                                                        // Beyond that size spring will throw exception.
-    private static final long MAX_REQUEST_SIZE = 20971520; // 20MB : Total request size containing Multi part.
-     
-    private static final int FILE_SIZE_THRESHOLD = 0; // Size threshold after which files will be written to disk
+    
 }

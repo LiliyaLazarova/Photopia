@@ -13,9 +13,6 @@
 <title>Photopia &mdash;</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet"> -->
-<!-- <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i" rel="stylesheet"> -->
-
 <!-- Animate.css -->
 <link rel="stylesheet" href="css/animate.css">
 <!-- Icomoon Icon Fonts-->
@@ -76,10 +73,8 @@ function Validate(oForm) {
 			message.innerHTML="File size is OK!";
 			document.getElementById("submit").disabled = false;
 		} else {
-			message.innerHTML="File " + input.name + " is over size. " + Math.ceil(file)
-					+ " MB.";
-			bodyAppend("p",
-					"File  is over size!!! Max size 500MB. Please change the file.");
+			message.innerHTML = "The file is over the size limit of 5 MB : "
+				+ Math.ceil(file) + " MB.";
 			$.get("http://localhost:8080/Photopia/profile");
 			document.getElementById("submit").disabled = true;
 			
@@ -87,15 +82,6 @@ function Validate(oForm) {
 		$("#message").append(message);
 	}
 	</script>
-	<script type='text/javascript'>
-	function bodyAppend(tagName, innerHTML) {
-		var elm;
-		elm = document.createElement(tagName);
-		elm.innerHTML = innerHTML;
-		elm.style.color = "red";
-		document.body.appendChild(elm);
-	}
-</script>
 <script type="text/javascript">
 function getNumberOfLikesAndComments(index) {
 	var postId = $("#postId-"+index).val();
@@ -126,7 +112,7 @@ function getFollowingsList(){
 		$("#followingsAndFollowers").append(message);
 		for (index in data) {
 			var object = data[index];
-			var name = document.createElement("label");
+			var name = document.createElement("h1");
 			name.innerHTML = object.username;
 			$("#followingsAndFollowers").append(name);
 			var input = document.createElement("input");
@@ -142,8 +128,7 @@ function getFollowingsList(){
 			button.innerHTML = 'Following';
 			button.onclick=function(){startUnfollow(index);};
 			$("#followingsAndFollowers").append(button);
-			var line=document.createElement("br");
-			$("#followingsAndFollowers").append(line);
+
 		}
 	});
 	
@@ -183,15 +168,11 @@ function getFollowersList(){
 			name.innerHTML = object.username;
 			div.appendChild(name);
 			div.appendChild(input);
+			checkIfFollow(object.userId,button);
 			div.appendChild(button);
-			checkIfFollow(object.userId,button);
+			
 			$("#followingsAndFollowers").append(div);
-			$("#followingsAndFollowers").append(name);
-			$("#followingsAndFollowers").append(input);
-			checkIfFollow(object.userId,button);
-			$("#followingsAndFollowers").append(button);
-			
-			
+
 		}
 	});
 }
@@ -202,8 +183,6 @@ function checkIfFollow(followerId,button) {
 			function(data){
 		var buttonValue=data;
 		button.innerHTML =buttonValue;
-		
-		
 	});
 	
 }
@@ -263,12 +242,12 @@ function startFollow(index) {
 						<div class="col-md-4 text-center animate-box">
 							<a class="work">
 								<div class="work-grid">
-									<h2>About Me</h2>
-									<h3>${user.username}</h3>
+									<font size="6"><h1>About Me</h1></font>
+									<font size="5"><h3>${user.username}</h3></font>
 
-									<p>${numberOfPosts}&ensp;posts</p>
-									<p onmouseover="getFollowersList()">${numberOfFollowers}&ensp;followers</p>
-									<p onmouseover="getFollowingsList()">${numberOfFollowings}&ensp;followings</p>
+									<font size="5"><p>${numberOfPosts}&ensp;posts</p></font>
+									<font size="5"><p onmouseover="getFollowersList()">${numberOfFollowers}&ensp;followers</p></font>
+									<font size="5"><p onmouseover="getFollowingsList()">${numberOfFollowings}&ensp;followings</p></font>
 
 									<input class="btn btn-primary" type="submit"
 										onclick="window.location='changeProfile'"
@@ -351,16 +330,6 @@ function startFollow(index) {
 										</formmm:form>
 										<div id="message"></div>
 
-									</div>
-								</div>
-
-
-								<div class="col-md-6 animate-box skills">
-									<h3>Likes</h3>
-									<div class="progress">
-										<div class="progress-bar" role="progressbar"
-											aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"
-											style="width: 10%">Likes</div>
 									</div>
 								</div>
 							</div>

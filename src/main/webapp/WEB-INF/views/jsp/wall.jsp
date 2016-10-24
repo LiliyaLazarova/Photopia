@@ -13,38 +13,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Photopia</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description"
-	content="Free HTML5 Website Template by FreeHTML5.co" />
-<meta name="keywords"
-	content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
-<meta name="author" content="FreeHTML5.co" />
-
-<!-- 
-	//////////////////////////////////////////////////////
-
-	FREE HTML5 TEMPLATE 
-	DESIGNED & DEVELOPED by FreeHTML5.co
-		
-	Website: 		http://freehtml5.co/
-	Email: 			info@freehtml5.co
-	Twitter: 		http://twitter.com/fh5co
-	Facebook: 		https://www.facebook.com/fh5co
-
-	//////////////////////////////////////////////////////
-	 -->
-
-<!-- Facebook and Twitter integration -->
-<meta property="og:title" content="" />
-<meta property="og:image" content="" />
-<meta property="og:url" content="" />
-<meta property="og:site_name" content="" />
-<meta property="og:description" content="" />
-<meta name="twitter:title" content="" />
-<meta name="twitter:image" content="" />
-<meta name="twitter:url" content="" />
-<meta name="twitter:card" content="" />
-
-<!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet"> -->
 
 <!-- Animate.css -->
 <link rel="stylesheet" href="css/animate.css">
@@ -166,8 +134,7 @@ function getNumberOfLikesAndComments(index) {
 					<li><a href="suggestions">Suggestions</a></li>
 					<li><a href="profile">Profile</a></li>
 
-					<li class="has-dropdown" onmouseover="showNewsfeed()"><a
-						href="#">Newsfeed</a></li>
+					<li onmouseover="showNewsfeed()"><a>Newsfeed</a></li>
 
 					<li><a href="search">Search</a></li>
 
@@ -197,8 +164,8 @@ function getNumberOfLikesAndComments(index) {
 					<c:forEach var="post" items="${allFollowingsPosts}" varStatus="loop">
 						<div class="row">
 							<div class="col-md-4 text-center animate-box">
-								<a class="work" href="showPost?postId=${post.postId}"> <c:out
-										value="${post.ownerName}" />
+								<a class="work" href="showPost?postId=${post.postId}"> <font size="6"><h1><c:out
+										value="${post.ownerName}" /></h1></font>
 									<div class="work-grid"
 										style="background-image: url(img/${post.url})">
 
@@ -241,7 +208,6 @@ function getNumberOfLikesAndComments(index) {
 					<div class="row animate-box">
 						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
 							<p>
-								<a href="#" class="btn btn-primary">Show more results</a>
 							</p>
 						</div>
 					</div>

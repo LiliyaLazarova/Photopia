@@ -24,73 +24,60 @@ import com.photopia.model.UserDAO;
 import com.photopia.model.exceptions.UserException;
 import com.photopia.model.interfaces.IUser;
 
-
 @Controller
 public class ChangeProfileController {
-	
+
 	@Autowired
 	UserDAO userDAO;
 	@Autowired
 	PostDAO postDAO;
-	
-	private static final String UPLOAD_LOCATION = "C:\\Lility\\User_Photos\\img\\";
-	
-	@RequestMapping(value="/changeProfile", method = RequestMethod.GET)
-	public String showChangeProfileMenu(HttpServletRequest request,Model model) {
-//		if(request.getSession() == null) {
-//			return "index";
-//		}
-		Object userId = request.getSession().getAttribute("userID");
-		if(userId == null) {	
-			return "redirect:/index";
-		}
-		int id = (int)userId;
-		
-		try {
-			IUser user=userDAO.getUserInfo(id);
-			System.out.println(user);
-			model.addAttribute("user", user);
-			
-		} catch (UserException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
-		return "changeProfile";
-	}
 
-	@RequestMapping(value = "/changeProfile", method = RequestMethod.POST)
-	public String singleFileUpload(@RequestParam("file") MultipartFile multipartFile, 
-			ModelMap model,@ModelAttribute User user,HttpServletRequest request)throws IOException {
-		
+	private static final String UPLOAD_LOCATION = "C:\\Lility\\User_Photos\\img\\";
+
+	@RequestMapping(value = "/changeProfile", method = RequestMethod.GET)
+	public String showChangeProfileMenu(HttpServletRequest request, Model model) {
+
 		Object userId = request.getSession().getAttribute("userID");
 		if (userId == null) {
 			return "redirect:/index";
 		}
 		int id = (int) userId;
-		
-		
-		String[] path = multipartFile.getOriginalFilename().split(":\\\\");
-		String fileName = id+"_"+path[path.length-1];
-		
-		FileCopyUtils.copy(multipartFile.getBytes(), new File(UPLOAD_LOCATION + fileName));
 
-		
-		String url=id+"_"+multipartFile.getOriginalFilename();
-		if(!url.endsWith("_")) {
-		 user.setProfilePhotoUrl(url);
-		}
-		
-		
+		IUser user;
 		try {
-			userDAO.changeProfileInfo(user);
-		} catch (UserException | ClassNotFoundException | SQLException e) {
-			return "redirect:/profile";
+			user = userDAO.getUserInfo(id);
+			model.addAttribute("user", user);
+		} catch (ClassNotFoundException | UserException | SQLException e) {
+			e.printStackTrace();
+			return "error";
 		}
-		
+		return "changeProfile";
+	}
+
+	@RequestMapping(value = "/changeProfile", method = RequestMethod.POST)
+	public String singleFileUpload(@RequestParam("file") MultipartFile multipartFile, ModelMap model,
+			@ModelAttribute User user, HttpServletRequest request) {
+
+		Object userId = request.getSession().getAttribute("userID");
+		if (userId == null) {
+			return "redirect:/index";
+		}
+		int id = (int) userId;
+
+		String[] path = multipartFile.getOriginalFilename().split(":\\\\");
+		String fileName = id + "_" + path[path.length - 1];
+
+		try {
+			FileCopyUtils.copy(multipartFile.getBytes(), new File(UPLOAD_LOCATION + fileName));
+			String url = id + "_" + multipartFile.getOriginalFilename();
+			if (!url.endsWith("_")) {
+				user.setProfilePhotoUrl(url);
+			}
+			userDAO.changeProfileInfo(user);
+		} catch (IOException | ClassNotFoundException | UserException | SQLException e) {
+			e.printStackTrace();
+			return "error";
+		}
 		return "redirect:/profile";
 	}
-	
 }

@@ -9,7 +9,7 @@ public class Photo extends Post{
 		super(ownerId);
 	}
 	
-	public Photo(int postId, String url) {
+	public Photo(int postId, String url) throws PostException {
 		super(postId, url);
 	}
 	
@@ -21,7 +21,7 @@ public class Photo extends Post{
 		super();
 	}
 	
-	public Photo(String ownerName, String description, String location, String url){
+	public Photo(String ownerName, String description, String location, String url) throws PostException{
 		super(ownerName,description,location,url);
 	}
 

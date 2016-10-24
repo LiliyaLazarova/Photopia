@@ -28,15 +28,6 @@ public class User implements IUser {
 	private String gender;
 	private String biography;
 	private String profilePhotoUrl;
-	private boolean isFollowed;
-
-	public boolean isFollowed() {
-		return isFollowed;
-	}
-
-	public void setFollowed(boolean isFollowed) {
-		this.isFollowed = isFollowed;
-	}
 
 	private List<Post> userPosts=new LinkedList<Post>();
 
@@ -54,7 +45,6 @@ public class User implements IUser {
 	}
 
 	public User(String password, String email) throws UserException {
-		
 		setPassword(password);
 		setEmail(email);
 	}
@@ -94,7 +84,6 @@ public class User implements IUser {
 		}else {
 			throw new UserException("Invalid userId");
 		}
-		
 	}
 
 	public String getUsername() {
@@ -191,12 +180,4 @@ public class User implements IUser {
 
 	}
 
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", name=" + name + ", website=" + website + ", gender=" + gender + ", biography=" + biography
-				+ ", profilePhotoUrl=" + profilePhotoUrl + ", userPosts=" + userPosts + "]";
-	}
-	
-	
 }

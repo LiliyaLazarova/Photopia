@@ -17,44 +17,46 @@ import com.photopia.model.Photo;
 import com.photopia.model.Post;
 import com.photopia.model.PostDAO;
 import com.photopia.model.UserDAO;
+import com.photopia.model.exceptions.PostException;
 import com.photopia.model.exceptions.UserException;
 import com.photopia.model.interfaces.IUser;
 
 @Controller
 public class ShowUnfollowedUserProfileController {
-	
+
 	@Autowired
 	UserDAO userDAO;
 	@Autowired
 	PostDAO postDAO;
-	
-	
-	@RequestMapping(value="/showUnfollowedUserProfile", method = RequestMethod.GET)
-	public String showUnfollowedProfile(@RequestParam("userId") int id,HttpServletRequest request,Model model) {
 
-		
+	@RequestMapping(value = "/showUnfollowedUserProfile", method = RequestMethod.GET)
+	public String showUnfollowedProfile(@RequestParam("userId") int id, HttpServletRequest request, Model model) {
+
+		Object userId = request.getSession().getAttribute("userID");
 		try {
-			int numberOfPosts=userDAO.getNumberOfPosts(id);
-			int numberOfFollowers=userDAO.getNumberOfFollowers(id);
-			int numberOfFollowings=userDAO.getNumberOfFollowings(id);
-			
-			IUser user=userDAO.getUserInfo(id);
+			if (userId == null) {
+				return "redirect:/index";
+			}
+
+			int numberOfPosts = userDAO.getNumberOfPosts(id);
+			int numberOfFollowers = userDAO.getNumberOfFollowers(id);
+			int numberOfFollowings = userDAO.getNumberOfFollowings(id);
+
+			IUser user = userDAO.getUserInfo(id);
 			model.addAttribute("user", user);
 			model.addAttribute("numberOfPosts", numberOfPosts);
 			model.addAttribute("numberOfFollowers", numberOfFollowers);
 			model.addAttribute("numberOfFollowings", numberOfFollowings);
-			
-			List<Post> allPosts=postDAO.getAllPostsUrls(id);
-			model.addAttribute("allPosts",allPosts);
-			model.addAttribute("post",new Photo());
-			
-		} catch (UserException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
+
+			List<Post> allPosts;
+
+			allPosts = postDAO.getAllPostsUrls(id);
+			model.addAttribute("allPosts", allPosts);
+			model.addAttribute("post", new Photo());
+		} catch (ClassNotFoundException | SQLException | PostException | UserException e) {
 			e.printStackTrace();
+			return "error";
 		}
-		
-		
-		
 		return "showUnfollowedUserProfile";
 	}
 

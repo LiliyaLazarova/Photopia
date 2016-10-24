@@ -62,8 +62,7 @@ public class Comment {
 		
 	}
 	public Timestamp getTimestamp() {
-		timestamp=timestamp.valueOf(LocalDateTime.now());
-		return timestamp.valueOf(LocalDateTime.now());
+		return Timestamp.valueOf(LocalDateTime.now());
 	}
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;

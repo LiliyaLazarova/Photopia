@@ -14,11 +14,6 @@
 <title>Photopia &mdash;</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
-<!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet"> -->
-<!-- <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i" rel="stylesheet"> -->
-
 <!-- Animate.css -->
 <link rel="stylesheet" href="css/animate.css">
 <!-- Icomoon Icon Fonts-->
@@ -37,26 +32,32 @@
 	<![endif]-->
 
 <script type="text/javascript">
-	function change(index) {
-		var elem = document.getElementById("myButton-"+index);
-		if (elem.value == "Follow") {
-			elem.value = "Following";
-			follow(index);
-		} else
-			elem.value = "Follow";
-			unfollow(index);
-	}
+ function change(index) {
+  var elem = document.getElementById("myButton-"+index);
+  if (elem.value == "Follow") {
+   follow(index);
+   
+   
+  } else
+   unfollow(index);
+   
+   
+ }
 </script>
 <script type="text/javascript">
 function unfollow(index) {
-	var followingId=$("#userId-"+index).val();
-	$.post("http://localhost:8080/Photopia/unfollow?followingId="+followingId);
+ var followingId=$("#userId-"+index).val();
+ $.post("http://localhost:8080/Photopia/unfollow?followingId="+followingId);
+ var elem = document.getElementById("myButton-"+index);
+ elem.value = "Follow";
 }</script>
 
 <script type="text/javascript">
 function follow(index) {
-	var followingId=$("#userId-"+index).val();
-	$.post("http://localhost:8080/Photopia/follow?followingId="+followingId);
+ var followingId=$("#userId-"+index).val();
+ $.post("http://localhost:8080/Photopia/follow?followingId="+followingId);
+ var elem = document.getElementById("myButton-"+index);
+ elem.value = "Following";
 }
 </script>
 
@@ -99,7 +100,7 @@ function follow(index) {
 
 					<div class="col-md-12">
 
-						<h3 class="title animate-box">You might want to follow</h3>
+						<font size="6"><h3 class="title animate-box">You might want to follow :</h3></font>
 					</div>
 					<c:forEach var="user" items="${allUserFollowers}" varStatus="loop">
 						<div class="col-md-6 col-sm-6">

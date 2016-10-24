@@ -13,9 +13,6 @@
 <title>Photopia &mdash;</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet"> -->
-<!-- <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i" rel="stylesheet"> -->
-
 <!-- Animate.css -->
 <link rel="stylesheet" href="css/animate.css">
 <!-- Icomoon Icon Fonts-->
@@ -106,14 +103,6 @@
 		</div>
 	</div>
 	</div>
-	</div>
-
-	<div class="col-md-6 animate-box skills">
-		<h3>Likes</h3>
-		<div class="progress">
-			<div class="progress-bar" role="progressbar" aria-valuenow="10"
-				aria-valuemin="0" aria-valuemax="100" style="width: 10%">Likes</div>
-		</div>
 	</div>
 
 	<div id="fh5co-started">

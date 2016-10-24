@@ -55,10 +55,10 @@ body {
 		</formmm:form>
 	</div>
 
-	<h1>Photopia</h1>
-
+<font size="5"><h1 >Photopia</h1></font>
 	<button class="resetbtn" type="reset"
 		onclick="window.location.href='register'">Register</button>
+
 
 
 

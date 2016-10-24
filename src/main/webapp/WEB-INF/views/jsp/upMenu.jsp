@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-        <title>CSS3 Animated Navigation Menu | Tutorialzine Demo</title>
+        <title>Photopia</title>
 
         <!-- Our CSS stylesheet file -->
         <link rel="stylesheet" href="css/styles.css" />

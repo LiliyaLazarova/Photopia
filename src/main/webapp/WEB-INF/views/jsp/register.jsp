@@ -35,7 +35,6 @@ body {
 	padding: 8px;
 	margin: 16px;
 }
-
 </style>
 
 </head>
@@ -43,23 +42,24 @@ body {
 <body>
 
 	<div class="login">
-	
+
 		<header class="header"> <span class="text">REGISTER</span> <span
 			class="loader"></span> </header>
 		<formmm:form commandName="user" class="form">
-		
-				<c:if test="${not empty errorMessage}">
+
+			<c:if test="${not empty errorMessage}">
 				<font color="red"> <c:out value="${errorMessage}" />
 				</font>
 			</c:if>
-		
-			<formmm:input path="username" class="input" placeholder="Username"/>
+
+			<formmm:input path="username" class="input" placeholder="Username" />
 			<!-- <formmm:errors path="username" cssClass="error"/> -->
-			
-			<formmm:input path="password" class="input" placeholder="Password"  type="password" />
+
+			<formmm:input path="password" class="input" placeholder="Password"
+				type="password" />
 			<!-- <formmm:errors path="password" cssClass="error"/>-->
-			
-			<formmm:input path="email" class="input" placeholder="E-mail"/>
+
+			<formmm:input path="email" class="input" placeholder="E-mail" />
 			<!-- <formmm:errors path="email" cssClass="error"/>  -->
 
 			<button class="btn" type="submit"></button>
@@ -67,8 +67,8 @@ body {
 
 	</div>
 
-<h1> Photopia </h1>
-	
+	<font size="5"><h1>Photopia</h1></font>
+
 	<button class="resetbtn" type="reset"
 		onclick="window.location.href='index'">Login</button>
 

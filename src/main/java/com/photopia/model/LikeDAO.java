@@ -38,7 +38,6 @@ public class LikeDAO {
 		} catch (SQLException e) {
 			throw new LikeException("Likes missing");
 		}
-		
 	}
 	
 	public void addLikeToPost(int userId, int postId) throws PostException, ClassNotFoundException, SQLException {
@@ -52,17 +51,14 @@ public class LikeDAO {
 			preparedStatement.setInt(2, postId);
 			Timestamp time = Timestamp.valueOf(LocalDateTime.now());
 			preparedStatement.setTimestamp(3, time);
-			
 
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
 			throw new PostException("Invalid like to post");
 		}
-
 	}
 
-	
 	public void removeLikeFromPost(int postId,int userId) throws LikeException, ClassNotFoundException, SQLException{
 		
 		 Connection connection = new DBConnection().getConnection();
@@ -76,8 +72,5 @@ public class LikeDAO {
 		} catch (SQLException e) {
 			throw new LikeException("You have already liked this post");
 		}
-
-		
 	}
-
 }
